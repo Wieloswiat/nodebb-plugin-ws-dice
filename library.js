@@ -96,7 +96,7 @@ plugin.editPost = async function ({ post, data }) {
 };
 plugin.parsePost = async function ({ postData }) {
     postData.content = postData.content.replace(
-        /^(<p dir="auto">)?\/\u200B?roll(?<rollData>[^#\n]+)(?<rollComment>#[^\n]+)?(<\/p>)$/gimu,
+        /^(<p dir="auto">)?\/\u200B?roll(?<rollData>[^#\n]+)(?<rollComment>#[^\n]+)?(<br>|<\/p>|$)/gimu,
         (_text, _p1, rollData, rollComment) => {
             return `<div class="dice-roll-hidden">/roll${rollData}</div>
             ${
