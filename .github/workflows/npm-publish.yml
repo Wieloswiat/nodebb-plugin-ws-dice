@@ -16,8 +16,7 @@ jobs:
         with:
           node-version: 14
           cache: "npm"
-      - run: npm
-      - run: npm test
+      - run: npm install
 
   publish-npm:
     needs: build
