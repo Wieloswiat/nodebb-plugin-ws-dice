@@ -1,6 +1,6 @@
 {
     "name": "nodebb-plugin-ws-dice",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "A dice plugin integrated with topic events",
     "main": "library.js",
     "scripts": {
