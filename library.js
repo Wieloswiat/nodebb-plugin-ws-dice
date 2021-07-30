@@ -89,7 +89,7 @@ plugin.createPost = async function ({ post, data }) {
     return { post, data };
 };
 plugin.editPost = async function ({ post, data }) {
-    const postData = await getPostData(data.pid);
+    let postData = await getPostData(data.pid);
     postData = await parseCommands(postData);
     post.content = post.content.replace(/^\s*\/roll/g, () => "/\u200Broll");
     return { post, data };
