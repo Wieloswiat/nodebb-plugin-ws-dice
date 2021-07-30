@@ -1,72 +1,112 @@
-'use strict';
+"use strict";
 
-const nconf = require.main.require('nconf');
-const winston = require.main.require('winston');
-const controllers = require('./lib/controllers');
+const { escapeHTML } = require.main.require("./src/utils");
+const { events } = require.main.require("./src/topics");
+const { getPostData } = require.main.require("./src/posts");
 
+const { parseDiceNotation } = require("./lib/dice-parser");
 const plugin = {};
 
-plugin.init = async (params) => {
-	const { router, middleware/* , controllers */ } = params;
-	const routeHelpers = require.main.require('./src/routes/helpers');
+const dice = ["d2", "d4", "d6", "d8", "d10", "d12", "d20", "dF"];
 
-	/**
-	 * We create two routes for every view. One API call, and the actual route itself.
-	 * Use the `setupPageRoute` helper and NodeBB will take care of everything for you.
-	 *
-	 * Other helpers include `setupAdminPageRoute` and `setupAPIRoute`
-	 * */
-	routeHelpers.setupPageRoute(router, '/quickstart', middleware, [(req, res, next) => {
-		winston.info(`[plugins/quickstart] In middleware. This argument can be either a single middleware or an array of middlewares`);
-		setImmediate(next);
-	}], (req, res) => {
-		winston.info(`[plugins/quickstart] Navigated to ${nconf.get('relative_path')}/quickstart`);
-		res.sendStatus(200);	// replace this with res.render('templateName');
-	});
-	routeHelpers.setupAdminPageRoute(router, '/admin/plugins/quickstart', middleware, [], controllers.renderAdminPage);
+plugin.addTopicEvents = async function ({ types }) {
+    types.dice = {
+        icon: "fa-dice",
+    };
+    return { types };
 };
+function createText(result, diceResults, notation) {
+    let diceString = "";
+    for (const result of diceResults) {
+        for (const value of result.results) {
+            if (dice.includes(result.type)) {
+                if (result.type === "dF") {
+                    diceString += `<i class="df-${result.type}-${
+                        value > 0 ? "plus" : value < 0 ? "minus" : "zero"
+                    } df-event-icon"></i><span class="df-icon-text">${value}</span> `;
+                    continue;
+                }
+                diceString += `<i class="df-${result.type}-${value} df-event-icon"></i><span class="df-icon-text">${value}</span> `;
+            } else {
+                diceString += `<span class="$df-text">${value}</span> `;
+            }
+        }
+    }
+    const text = `[[dice:roll-many-dice-0]] ${result} [[dice:roll-many-dice-1]] ${diceString} [[dice:roll-many-dice-2]] ${escapeHTML(
+        notation
+    )} [[dice:roll-many-dice-3]]`;
+    return text;
+}
 
-/**
- * If you wish to add routes to NodeBB's RESTful API, listen to the `static:api.routes` hook.
- * Define your routes similarly to above, and allow core to handle the response via the
- * built-in helpers.formatApiResponse() method.
- *
- * In this example route, the `authenticate` middleware is added, which means a valid login
- * session or bearer token (which you can create via ACP > Settings > API Access) needs to be
- * passed in.
- *
- * To call this example route:
- *   curl -X GET \
- * 		http://example.org/api/v3/plugins/foobar/test \
- * 		-H "Authorization: Bearer some_valid_bearer_token"
- *
- * Will yield the following response JSON:
- * 	{
- *		"status": {
- *			"code": "ok",
- *			"message": "OK"
- *		},
- *		"response": {
- *			"foobar": "test"
- *		}
- *	}
- */
-plugin.addRoutes = async ({ router, middleware, helpers }) => {
-	router.get('/quickstart/:param1', middleware.authenticate, (req, res) => {
-		helpers.formatApiResponse(200, res, {
-			foobar: req.params.param1,
-		});
-	});
+async function parseCommands(post) {
+    const commands = post.content.matchAll(
+        /^\s*\/roll([dk\s\d+\-/*\(\)<>^×x÷F]+)(#.*)?$/gi
+    );
+    for (const [, notation] of commands) {
+        const { result, diceResults } = parseDiceNotation(notation);
+        if (diceResults.length === 0) {
+            continue;
+        }
+        let text = createText(result, diceResults, notation);
+        if (
+            diceResults.length === 1 &&
+            diceResults[0].results.length === 1 &&
+            diceResults[0].results[0] === result
+        ) {
+            if (dice.includes(diceResults[0].type)) {
+                text = `[[dice:roll-one-die-0]] <i class="df-${
+                    diceResults[0].type
+                }-${
+                    diceResults[0].results[0]
+                } df-event-icon"></i><span class="df-icon-text">${
+                    diceResults[0].results[0]
+                }</span> [[dice:roll-one-die-1]] ${escapeHTML(
+                    notation
+                )} [[dice:roll-one-die-2]]`;
+            } else {
+                text = `[[dice:roll-one-die-0]] <span class="df-text">${
+                    diceResults[0].results[0]
+                }</span> [[dice:roll-one-die-1]] ${escapeHTML(
+                    notation
+                )} [[dice:roll-one-die-2]]`;
+            }
+        }
+
+        const event = {
+            type: "dice",
+            text,
+            uid: post.uid,
+        };
+        await events.log(post.tid, event);
+    }
+    return post;
+}
+
+plugin.createPost = async function ({ post, data }) {
+    post.content = post.content.replace(/^\s*\/\u200B+roll/giu, () => "/roll");
+    post = await parseCommands(post);
+    post.content = post.content.replace(/^\s*\/roll/g, () => "/\u200Broll");
+    return { post, data };
 };
-
-plugin.addAdminNavigation = function (header, callback) {
-	header.plugins.push({
-		route: '/plugins/quickstart',
-		icon: 'fa-tint',
-		name: 'Quickstart',
-	});
-
-	callback(null, header);
+plugin.editPost = async function ({ post, data }) {
+    const postData = await getPostData(data.pid);
+    postData = await parseCommands(postData);
+    post.content = post.content.replace(/^\s*\/roll/g, () => "/\u200Broll");
+    return { post, data };
+};
+plugin.parsePost = async function ({ postData }) {
+    postData.content = postData.content.replace(
+        /^(<p dir="auto">)?\/\u200B?roll(?<rollData>[^#\n]+)(?<rollComment>#[^\n]+)?(<\/p>)$/gimu,
+        (_text, _p1, rollData, rollComment) => {
+            return `<div class="dice-roll-hidden">/roll${rollData}</div>
+            ${
+                rollComment && rollComment.length > 0 && rollComment[0] === "#"
+                    ? '<p dir="auto">' + rollComment.substr(1) + "</p>"
+                    : ""
+            }`;
+        }
+    );
+    return { postData };
 };
 
 module.exports = plugin;

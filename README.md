@@ -1,17 +1,13 @@
-# Quickstart Plugin for NodeBB
+# Dice Plugin for NodeBB
 
-A starter kit for quickly creating NodeBB plugins. Comes with a pre-setup LESS file, server side JS script with an `action:app.load` hook, and a client-side script. Most plugins need at least one of the above, so this ought to save you some time. For a full list of hooks have a look at our [wiki page](https://github.com/NodeBB/NodeBB/wiki/Hooks), and for more information about creating plugins please visit our [documentation portal](https://docs.nodebb.org/).
+A dice plugin integrated with topic events (for display on Persona timeline or other implementation of events)
 
-Fork this or copy it, and using your favourite text editor find and replace all instances of `nodebb-plugin-quickstart` with `nodebb-plugin-your-plugins-name`. Change the author's name in the LICENSE and package.json files.
+## Throwing dice
 
-## Hello World
-
-Really simple, just edit `static/lib/main.js` and paste in `console.log('hello world');`, and that's it!
+Add `/roll <dice string>` into a post.
+This supports most common dice notations - from the basic `xdY` (for example `4d6` for four 6 sided dice), through addition, subtraction, multiplication and division (for example `2d8+4d4*5` will roll 2 d8 dice and add the result to a sum of a roll of 4 d4 dice multiplied by 5), to dropping lowest/highest dice (`xdY-L`/`xdY-H`) or counting successes (`5d6>3` will return number of dice that were above 3).
 
 ## Installation
-
-    npm install nodebb-plugin-quickstart
-
-## Screenshots
-
-Don't forget to add screenshots!
+```bash
+    npm install nodebb-plugin-ws-dice
+```

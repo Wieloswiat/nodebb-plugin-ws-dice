@@ -1,0 +1,33 @@
+version: 2
+updates:
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      timezone: "Europe/Warsaw"
+      day: "monday"
+      time: "17:00"
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "chore(dependencies):"
+      include: "scope"
+    assignees:
+      - "oplik0"
+
+  # Maintain dependencies for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      timezone: "Europe/Warsaw"
+      day: "monday"
+      time: "17:00"
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "chore(dependencies):"
+      include: "scope"
+    assignees:
+      - "oplik0"

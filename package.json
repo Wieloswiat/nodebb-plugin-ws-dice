@@ -1,49 +1,56 @@
 {
-  "name": "nodebb-plugin-quickstart",
-  "version": "0.4.1",
-  "description": "A starter kit for quickly creating NodeBB plugins",
-  "main": "library.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/psychobunny/nodebb-plugin-quickstart"
-  },
-  "keywords": [
-    "nodebb",
-    "plugin",
-    "quickstart",
-    "shell"
-  ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    "name": "nodebb-plugin-ws-dice",
+    "version": "1.0",
+    "description": "A dice plugin integrated with topic events",
+    "main": "library.js",
+    "scripts": {
+        "lint": "eslint --fix"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Wieloswiat/nodebb-plugin-ws-dice"
+    },
+    "keywords": [
+        "nodebb",
+        "plugin",
+        "dice",
+        "shell",
+        "timeline"
+    ],
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged",
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
+    },
+    "lint-staged": {
+        "*.js": [
+            "eslint --fix",
+            "git add"
+        ]
+    },
+    "author": {
+        "name": "oplik0",
+        "email": "opliko.reg@protonmail.com"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Wieloswiat/nodebb-plugin-ws-dice/issues"
+    },
+    "readmeFilename": "README.md",
+    "nbbpm": {
+        "compatibility": "^1.17.0"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "12.1.4",
+        "@commitlint/config-angular": "12.1.4",
+        "eslint": "7.31.0",
+        "eslint-config-airbnb-base": "14.2.1",
+        "eslint-plugin-import": "2.23.4",
+        "husky": "7.0.1",
+        "lint-staged": "11.1.0"
+    },
+    "dependencies": {
+        "expressionparser": "^1.1.5"
     }
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ]
-  },
-  "author": {
-    "name": "psychobunny",
-    "email": "psycho.bunny@hotmail.com"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/psychobunny/nodebb-plugin-quickstart/issues"
-  },
-  "readmeFilename": "README.md",
-  "nbbpm": {
-    "compatibility": "^1.15.0"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "12.1.4",
-    "@commitlint/config-angular": "12.1.4",
-    "eslint": "7.31.0",
-    "eslint-config-airbnb-base": "14.2.1",
-    "eslint-plugin-import": "2.23.4",
-    "husky": "7.0.1",
-    "lint-staged": "11.1.0"
-  }
 }
