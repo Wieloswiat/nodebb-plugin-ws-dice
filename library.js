@@ -40,7 +40,7 @@ function createText(result, diceResults, notation) {
 
 async function parseCommands(post) {
     const commands = post.content.matchAll(
-        /^\s*\/roll([dk\s\d+\-/*\(\)<>^×x÷F]+)(#.*)?$/gim
+        /^\s*\/roll([dk\s\d+\-/*\(\)<>^×x÷FHLNW]+)(#.*)?$/gim
     );
     for (const [, notation] of commands) {
         const { result, diceResults } = parseDiceNotation(notation);
