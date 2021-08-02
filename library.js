@@ -4,10 +4,22 @@ const { escapeHTML } = require.main.require("./src/utils");
 const { events } = require.main.require("./src/topics");
 const { getPostData } = require.main.require("./src/posts");
 
-const { parseDiceNotation } = require("./lib/dice-parser");
+const {
+    DiceRoller,
+    NumberGenerator,
+    Parser,
+    RollGroup,
+    Results: { RollResults },
+    Dice: { FudgeDice },
+} = require("rpg-dice-roller");
 const plugin = {};
 
 const dice = ["d2", "d4", "d6", "d8", "d10", "d12", "d20", "dF"];
+
+const roller = new DiceRoller();
+
+const generator = NumberGenerator.generator;
+generator.engines = NumberGenerator.engines.nodeCrypto;
 
 plugin.addTopicEvents = async function ({ types }) {
     types.dice = {
@@ -15,62 +27,129 @@ plugin.addTopicEvents = async function ({ types }) {
     };
     return { types };
 };
-function createText(result, diceResults, notation) {
+
+function createText(total, rolls, diceUsed, notation) {
+    console.log(`parsing:${notation}, ${rolls}, ${diceUsed},${total}`);
+    let text = "";
+    if (rolls.length === 1 && diceUsed[0].qty === 1) {
+        text = "[[dice:roll-one-die-0]] ";
+        let sides = diceUsed[0].sides;
+        let iconValue = total;
+        if (diceUsed[0] instanceof FudgeDice) {
+            sides = "F";
+            iconValue = total === 1 ? "plus" : total === -1 ? "minus" : "zero";
+        }
+        if (dice.includes(`d${sides}`)) {
+            text += `<i class="df-d${sides}-${iconValue} df-event-icon"></i><span class="df-icon-text">${total}</span>`;
+        } else {
+            text += `<span class="df-text">${total}</span>`;
+        }
+        text += ` [[dice:roll-one-die-1]] ${escapeHTML(
+            notation
+        )} [[dice:roll-one-die-2]]`;
+        return text;
+    }
     let diceString = "";
-    for (const result of diceResults) {
-        for (const value of result.results) {
-            if (dice.includes(result.type)) {
-                if (result.type === "dF") {
-                    diceString += `<i class="df-${result.type}-${
-                        value > 0 ? "plus" : value < 0 ? "minus" : "zero"
-                    } df-event-icon"></i><span class="df-icon-text">${value}</span> `;
-                    continue;
-                }
-                diceString += `<i class="df-${result.type}-${value} df-event-icon"></i><span class="df-icon-text">${value}</span> `;
-            } else {
-                diceString += `<span class="$df-text">${value}</span> `;
-            }
+    for (const [index, diceEntry] of diceUsed.entries()) {
+        if (typeof diceEntry === "object") {
+            console.log(rolls[index]);
+            diceString = parseRollGroup(
+                rolls[index]?.rolls ?? rolls[index].results,
+                diceEntry,
+                diceString
+            );
         }
     }
-    const text = `[[dice:roll-many-dice-0]] ${result} [[dice:roll-many-dice-1]] ${diceString} [[dice:roll-many-dice-2]] ${escapeHTML(
+    text = `[[dice:roll-many-dice-0]] ${total} [[dice:roll-many-dice-1]] ${diceString} [[dice:roll-many-dice-2]] ${escapeHTML(
         notation
     )} [[dice:roll-many-dice-3]]`;
     return text;
 }
-
-async function parseCommands(post) {
-    const commands = post.content.matchAll(
-        /^\s*\/roll([dk\s\d+\-/*\(\)<>^×x÷FHL]+)(#.*)?$/gim
+function parseRollGroup(rolls, diceEntry, diceString, i = 10) {
+    if (typeof diceEntry !== "object" || typeof rolls !== "object") return;
+    if (i < 0) {
+        throw new Error("[[dice:too-many-nested-groups]]");
+    }
+    console.log(
+        `i: ${i},diceEntry: ${diceEntry.constructor.name}, ${
+            diceEntry instanceof RollGroup
+        }`
     );
-    for (const [, notation] of commands) {
-        const { result, diceResults } = parseDiceNotation(notation);
-        if (diceResults.length === 0) {
-            continue;
-        }
-        let text = createText(result, diceResults, notation);
-        if (
-            diceResults.length === 1 &&
-            diceResults[0].results.length === 1 &&
-            diceResults[0].results[0] === result
-        ) {
-            if (dice.includes(diceResults[0].type)) {
-                text = `[[dice:roll-one-die-0]] <i class="df-${
-                    diceResults[0].type
-                }-${
-                    diceResults[0].results[0]
-                } df-event-icon"></i><span class="df-icon-text">${
-                    diceResults[0].results[0]
-                }</span> [[dice:roll-one-die-1]] ${escapeHTML(
-                    notation
-                )} [[dice:roll-one-die-2]]`;
-            } else {
-                text = `[[dice:roll-one-die-0]] <span class="df-text">${
-                    diceResults[0].results[0]
-                }</span> [[dice:roll-one-die-1]] ${escapeHTML(
-                    notation
-                )} [[dice:roll-one-die-2]]`;
+    if (diceEntry instanceof RollGroup) {
+        for (const [
+            groupIndex,
+            groupDiceEntry,
+        ] of diceEntry.expressions.entries()) {
+            if (typeof groupDiceEntry !== "object") continue;
+            for (const [
+                index,
+                individualDiceEntry,
+            ] of groupDiceEntry.entries()) {
+                if (typeof individualDiceEntry !== "object") continue;
+                console.log("groupDiceEntry + rolls");
+                console.log(individualDiceEntry);
+                console.log(rolls[groupIndex].results[index]);
+                diceString += parseRollGroup(
+                    rolls[groupIndex].results[index],
+                    individualDiceEntry,
+                    diceString,
+                    i - 1
+                );
             }
         }
+        return diceString;
+    }
+    let sides = diceEntry.sides;
+    if (diceEntry instanceof FudgeDice) {
+        sides = "F";
+    }
+    console.log("rolls");
+    console.log(rolls);
+    if (rolls instanceof RollResults) {
+        rolls = rolls.rolls;
+    }
+    for (const roll of rolls) {
+        if (typeof roll != "object") continue;
+        if (dice.includes(`d${sides}`)) {
+            let iconValue = roll.value;
+            if (diceEntry instanceof FudgeDice) {
+                iconValue =
+                    roll.value === 1
+                        ? "plus"
+                        : roll.value === -1
+                        ? "minus"
+                        : "zero";
+            }
+            diceString += `<i class="df-d${sides}-${iconValue} df-event-icon"></i><span class="df-icon-text">${roll.value}</span> `;
+        } else {
+            diceString += `<span class="df-text">${roll.value}</span> `;
+        }
+    }
+    return diceString;
+}
+
+async function parseCommands(post) {
+    let commands = post.content.matchAll(/^\s*\/roll([^#]+)(#.*)?$/gim);
+    for (let [, notation] of commands) {
+        notation = notation
+            .replace(/\s/gm, () => "")
+            .replace(/\d*k\d+/gim, "d");
+        let total, rolls, diceUsed, parsedNotation;
+        try {
+            ({
+                total,
+                rolls,
+                notation: parsedNotation,
+            } = roller.roll(notation));
+            diceUsed = Parser.parse(notation);
+        } catch (e) {
+            console.error(e);
+            continue;
+        }
+        if (rolls.length === 0) {
+            continue;
+        }
+        const text = createText(total, rolls, diceUsed, parsedNotation);
 
         const event = {
             type: "dice",

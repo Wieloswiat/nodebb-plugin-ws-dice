@@ -1,6 +1,6 @@
 {
     "name": "nodebb-plugin-ws-dice",
-    "version": "1.1.2",
+    "version": "1.2.0",
     "description": "A dice plugin integrated with topic events",
     "main": "library.js",
     "scripts": {
@@ -51,6 +51,7 @@
         "lint-staged": "11.1.1"
     },
     "dependencies": {
-        "expressionparser": "^1.1.5"
+        "expressionparser": "^1.1.5",
+        "rpg-dice-roller": "^5.0.0"
     }
 }
