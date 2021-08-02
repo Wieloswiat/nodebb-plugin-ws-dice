@@ -29,7 +29,6 @@ plugin.addTopicEvents = async function ({ types }) {
 };
 
 function createText(total, rolls, diceUsed, notation) {
-    console.log(`parsing:${notation}, ${rolls}, ${diceUsed},${total}`);
     let text = "";
     if (rolls.length === 1 && diceUsed[0].qty === 1) {
         text = "[[dice:roll-one-die-0]] ";
@@ -52,7 +51,6 @@ function createText(total, rolls, diceUsed, notation) {
     let diceString = "";
     for (const [index, diceEntry] of diceUsed.entries()) {
         if (typeof diceEntry === "object") {
-            console.log(rolls[index]);
             diceString = parseRollGroup(
                 rolls[index]?.rolls ?? rolls[index].results,
                 diceEntry,
@@ -70,11 +68,6 @@ function parseRollGroup(rolls, diceEntry, diceString, i = 10) {
     if (i < 0) {
         throw new Error("[[dice:too-many-nested-groups]]");
     }
-    console.log(
-        `i: ${i},diceEntry: ${diceEntry.constructor.name}, ${
-            diceEntry instanceof RollGroup
-        }`
-    );
     if (diceEntry instanceof RollGroup) {
         for (const [
             groupIndex,
@@ -86,9 +79,6 @@ function parseRollGroup(rolls, diceEntry, diceString, i = 10) {
                 individualDiceEntry,
             ] of groupDiceEntry.entries()) {
                 if (typeof individualDiceEntry !== "object") continue;
-                console.log("groupDiceEntry + rolls");
-                console.log(individualDiceEntry);
-                console.log(rolls[groupIndex].results[index]);
                 diceString += parseRollGroup(
                     rolls[groupIndex].results[index],
                     individualDiceEntry,
@@ -103,8 +93,6 @@ function parseRollGroup(rolls, diceEntry, diceString, i = 10) {
     if (diceEntry instanceof FudgeDice) {
         sides = "F";
     }
-    console.log("rolls");
-    console.log(rolls);
     if (rolls instanceof RollResults) {
         rolls = rolls.rolls;
     }
