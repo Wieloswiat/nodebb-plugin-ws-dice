@@ -44,7 +44,7 @@
     "devDependencies": {
 
         "@commitlint/cli": "14.1.0",
-        "@commitlint/config-angular": "14.1.0",
+        "@commitlint/config-angular": "15.0.0",
         "eslint": "8.4.1",
         "eslint-config-airbnb-base": "15.0.0",
         "eslint-plugin-import": "2.25.2",
