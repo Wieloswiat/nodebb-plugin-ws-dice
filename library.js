@@ -11,7 +11,7 @@ const {
     RollGroup,
     Results: { RollResults },
     Dice: { FudgeDice },
-} = require("rpg-dice-roller");
+} = require("@dice-roller/rpg-dice-roller");
 const plugin = {};
 
 const dice = ["d2", "d4", "d6", "d8", "d10", "d12", "d20", "dF"];

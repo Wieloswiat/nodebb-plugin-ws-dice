@@ -23,8 +23,12 @@
     "staticDirs": {
         "static": "./static"
     },
-    "less": ["static/style.less"],
-    "scripts": ["static/lib/main.js"],
+    "less": [
+        "static/style.less"
+    ],
+    "scripts": [
+        "static/lib/main.js"
+    ],
     "templates": "static/templates",
     "languages": "static/languages",
     "defaultLang": "en_GB"
