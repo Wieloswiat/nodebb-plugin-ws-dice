@@ -4,6 +4,7 @@ const { escapeHTML } = require.main.require("./src/utils");
 const { events } = require.main.require("./src/topics");
 const { getPostData } = require.main.require("./src/posts");
 const { addSystemMessage } = require.main.require("./src/messaging");
+const winston = require.main.require('winston');
 const {
     DiceRoller,
     NumberGenerator,
