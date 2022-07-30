@@ -18,6 +18,10 @@
         {
             "hook": "filter:parse.post",
             "method": "parsePost"
+        },
+        {
+            "hook": "action:messaging.save",
+            "method": "onSentMessage"
         }
     ],
     "staticDirs": {

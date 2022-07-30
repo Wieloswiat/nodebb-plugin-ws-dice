@@ -3,7 +3,7 @@
 const { escapeHTML } = require.main.require("./src/utils");
 const { events } = require.main.require("./src/topics");
 const { getPostData } = require.main.require("./src/posts");
-
+const { addSystemMessage } = require.main.require("./src/messaging");
 const {
     DiceRoller,
     NumberGenerator,
@@ -52,7 +52,7 @@ function createText(total, rolls, diceUsed, notation) {
     for (const [index, diceEntry] of diceUsed.entries()) {
         if (typeof diceEntry === "object") {
             diceString = parseRollGroup(
-                rolls[index]?.rolls ?? rolls[index].results,
+                rolls[index].rolls ?? rolls[index].results,
                 diceEntry,
                 diceString
             );
@@ -138,7 +138,6 @@ async function parseCommands(post) {
             continue;
         }
         const text = createText(total, rolls, diceUsed, parsedNotation);
-
         const event = {
             type: "dice",
             text,
@@ -148,6 +147,35 @@ async function parseCommands(post) {
     }
     return post;
 }
+
+async function parseChatCommands(message) {
+    const results = [];
+    let commands = message.cleanedContent.matchAll(/^\s*\/roll([^#]+)(#.*)?$/gim);
+    for (let [, notation] of commands) {
+        notation = notation
+            .replace(/\s/gm, () => "")
+            .replace(/\d*k\d+/gim, "d");
+        let total, rolls, diceUsed, parsedNotation;
+        try {
+            ({
+                total,
+                rolls,
+                notation: parsedNotation,
+            } = roller.roll(notation));
+            diceUsed = Parser.parse(notation);
+        } catch (e) {
+            console.error(e);
+            continue;
+        }
+        if (rolls.length === 0) {
+            continue;
+        }
+        const text = createText(total, rolls, diceUsed, parsedNotation);
+        results.push(text.replace(/<[^>]+>/gm, ''));
+    }
+    return results;
+}
+
 
 plugin.createPost = async function ({ post, data }) {
     post.content = post.content.replace(/^\s*\/\u200B+roll/giu, () => "/roll");
@@ -175,5 +203,13 @@ plugin.parsePost = async function ({ postData }) {
     );
     return { postData };
 };
+
+plugin.onSentMessage = async function ({ message, data }) {
+    let results = await parseChatCommands(message);
+    
+    for (const result of results ?? []) {
+        addSystemMessage(`dice-ignore]]${result} [[modules:chat.system.dice-for`, data.uid, data.roomId);
+    }
+}
 
 module.exports = plugin;
