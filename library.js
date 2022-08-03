@@ -191,7 +191,7 @@ plugin.editPost = async function ({ post, data }) {
     return { post, data };
 };
 plugin.parsePost = async function ({ postData }) {
-    if (postData.content.split("\n").length > 1) {
+    if (postData.content.split("<p").length > 2) {
         postData.content = postData.content.replace(
             /^(<p dir="auto">)?\/\u200B?roll(?<rollData>[^#\n]+)(?<rollComment>#[^\n]+)?(<br>|<\/p>|$)/gimu,
             (_text, _p1, rollData, rollComment) => {
