@@ -191,17 +191,19 @@ plugin.editPost = async function ({ post, data }) {
     return { post, data };
 };
 plugin.parsePost = async function ({ postData }) {
-    postData.content = postData.content.replace(
-        /^(<p dir="auto">)?\/\u200B?roll(?<rollData>[^#\n]+)(?<rollComment>#[^\n]+)?(<br>|<\/p>|$)/gimu,
-        (_text, _p1, rollData, rollComment) => {
-            return `<div class="dice-roll-hidden">/roll${rollData}</div>
-            ${
-                rollComment && rollComment.length > 0 && rollComment[0] === "#"
-                    ? '<p dir="auto">' + rollComment.substr(1) + "</p>"
-                    : ""
-            }`;
-        }
-    );
+    if (postData.content.split("\n").length > 1) {
+        postData.content = postData.content.replace(
+            /^(<p dir="auto">)?\/\u200B?roll(?<rollData>[^#\n]+)(?<rollComment>#[^\n]+)?(<br>|<\/p>|$)/gimu,
+            (_text, _p1, rollData, rollComment) => {
+                return `<div class="dice-roll-hidden">/roll${rollData}</div>
+                ${
+                    rollComment && rollComment.length > 0 && rollComment[0] === "#"
+                        ? '<p dir="auto">' + rollComment.substr(1) + "</p>"
+                        : ""
+                }`;
+            }
+        );
+    }
     return { postData };
 };
 
