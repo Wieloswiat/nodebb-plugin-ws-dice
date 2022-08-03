@@ -172,7 +172,7 @@ async function parseChatCommands(message) {
             continue;
         }
         const text = createText(total, rolls, diceUsed, parsedNotation);
-        results.push(text.replace(/<[^>]+>/gm, '').replace('<', '＜').replace('>', '＞'));
+        results.push(text.replace(/<[^>]+>/gm, '').replace('&lt;', '<').replace('&gt;', '>'));
     }
     return results;
 }
