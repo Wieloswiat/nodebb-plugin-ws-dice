@@ -33,9 +33,8 @@ plugin.addTopicEvents = async function({ types }) {
 };
 
 function createText(total, rolls, diceUsed, notation) {
-	let text = '';
 	if (rolls.length === 1 && diceUsed[0].qty === 1) {
-		text = '[[dice:roll-one-die-0]] ';
+		let text = '<span class="dice-event-text">[[dice:roll-one-die-0]] ';
 		let sides = diceUsed[0].sides;
 		let iconValue = total;
 		if (diceUsed[0] instanceof FudgeDice) {
@@ -51,7 +50,7 @@ function createText(total, rolls, diceUsed, notation) {
 			escapeHTML(
 				notation,
 			)
-		} [[dice:roll-one-die-2]]`;
+		} [[dice:roll-one-die-2]]</span>`;
 		return text;
 	}
 	let diceString = '';
@@ -64,11 +63,12 @@ function createText(total, rolls, diceUsed, notation) {
 			);
 		}
 	}
-	text = `[[dice:roll-many-dice-0]] ${total} [[dice:roll-many-dice-1]] ${diceString} [[dice:roll-many-dice-2]] ${
-		escapeHTML(
-			notation,
-		)
-	} [[dice:roll-many-dice-3]]`;
+	let text =
+		`<span class="dice-event-text">[[dice:roll-many-dice-0]] ${total} [[dice:roll-many-dice-1]] ${diceString} [[dice:roll-many-dice-2]] ${
+			escapeHTML(
+				notation,
+			)
+		} [[dice:roll-many-dice-3]]</span>`;
 	return text;
 }
 function parseRollGroup(rolls, diceEntry, diceString, i = 10) {

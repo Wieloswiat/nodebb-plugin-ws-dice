@@ -25,8 +25,11 @@
 }
 .df-event-icon {
   font-size: 3rem;
-  position: relative;
-  top: 0.5rem;
+  display: inline-flex;
+}
+.dice-event-text {
+  display: inline-flex;
+  align-items: center;
 }
 
 /*
@@ -150,7 +153,6 @@
 .df-solid-small-dot-d6-4:before,
 .df-solid-small-dot-d6-5:before,
 .df-solid-small-dot-d6-6:before {
-  display: inline-block;
   font-family: "dicefont";
   font-style: normal;
   font-weight: normal;
@@ -159,7 +161,6 @@
   text-decoration: inherit;
   text-rendering: geometricPrecision;
   text-transform: none;
-  margin-bottom: 1.5rem;
 }
 
 .df-d10:before { content: "\f194"; }
