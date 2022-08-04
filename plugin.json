@@ -4,6 +4,10 @@
 	"library": "./library.js",
 	"hooks": [
 		{
+			"hook": "static:app.load",
+			"method": "init"
+		},
+		{
 			"hook": "filter:topicEvents.init",
 			"method": "addTopicEvents"
 		},

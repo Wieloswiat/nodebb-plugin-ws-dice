@@ -1,13 +1,5 @@
 'use strict';
 
-const { escapeHTML } = require.main.require('./src/utils');
-const { events, getTopicField } = require.main.require('./src/topics');
-const { getPostData } = require.main.require('./src/posts');
-const { addSystemMessage } = require.main.require('./src/messaging');
-const { emitToUids } = require.main.require('./src/socket.io/helpers');
-const { getUidsFromSet } = require.main.require('./src/user');
-const { filterUids } = require.main.require('./src/privileges/categories');
-const winston = require.main.require('winston');
 const {
 	DiceRoller,
 	NumberGenerator,
@@ -16,16 +8,30 @@ const {
 	Results: { RollResults },
 	Dice: { FudgeDice },
 } = require('@dice-roller/rpg-dice-roller');
+const runMigrations = require('./migrations');
+
+const { escapeHTML } = require.main.require('./src/utils');
+const { events, getTopicField } = require.main.require('./src/topics');
+const { getPostData } = require.main.require('./src/posts');
+const { addSystemMessage } = require.main.require('./src/messaging');
+const { emitToUids } = require.main.require('./src/socket.io/helpers');
+const { getUidsFromSet } = require.main.require('./src/user');
+const { filterUids } = require.main.require('./src/privileges/categories');
+
 const plugin = {};
 
 const dice = ['d2', 'd4', 'd6', 'd8', 'd10', 'd12', 'd20', 'dF'];
 
 const roller = new DiceRoller();
 
-const generator = NumberGenerator.generator;
+const { generator } = NumberGenerator;
 generator.engines = NumberGenerator.engines.nodeCrypto;
 
-plugin.addTopicEvents = async function({ types }) {
+plugin.init = async function () {
+	await runMigrations('ws-dice-settings');
+};
+
+plugin.addTopicEvents = async function ({ types }) {
 	types.dice = {
 		icon: 'fa-dice',
 	};
@@ -194,19 +200,19 @@ async function parseChatCommands(message) {
 	return results;
 }
 
-plugin.createPost = async function({ post, data }) {
+plugin.createPost = async function ({ post, data }) {
 	post.content = post.content.replaceAll(/^\s*\/\u200B+roll/giu, () => '/roll');
 	post = await parseCommands(post);
 	post.content = post.content.replaceAll(/^\s*\/roll/g, () => '/\u200Broll');
 	return { post, data };
 };
-plugin.editPost = async function({ post, data }) {
+plugin.editPost = async function ({ post, data }) {
 	let postData = await getPostData(data.pid);
 	postData = await parseCommands(postData);
 	post.content = post.content.replaceAll(/^\s*\/roll/g, () => '/\u200Broll');
 	return { post, data };
 };
-plugin.parsePost = async function({ postData }) {
+plugin.parsePost = async function ({ postData }) {
 	if (postData.content.split('<p').length > 2) {
 		postData.content = postData.content.replaceAll(
 			/^(<p dir="auto">)?\/\u200B?roll(?<rollData>[^#\n]+)(?<rollComment>#[^\n]+)?(<br>|<\/p>|$)/gimu,
@@ -223,7 +229,7 @@ plugin.parsePost = async function({ postData }) {
 	return { postData };
 };
 
-plugin.onSentMessage = async function({ message, data }) {
+plugin.onSentMessage = async function ({ message, data }) {
 	let results = await parseChatCommands(message);
 
 	for (const result of results ?? []) {

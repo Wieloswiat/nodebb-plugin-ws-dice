@@ -1,7 +1,8 @@
 {
 	"typescript": {
 		"useTabs": true,
-		"quoteStyle": "preferSingle"
+		"quoteStyle": "preferSingle",
+		"functionExpression.spaceBeforeParentheses": true
 	},
 	"json": {
 		"useTabs": true
