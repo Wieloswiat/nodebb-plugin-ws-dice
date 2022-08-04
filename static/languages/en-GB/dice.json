@@ -1,10 +1,10 @@
 {
-    "roll-one-die-0": "Got a",
-    "roll-one-die-1": "from a",
-    "roll-one-die-2": "roll for",
-    "roll-many-dice-0": "Got",
-    "roll-many-dice-1": "(individual rolls:",
-    "roll-many-dice-2": ") from a",
-    "roll-many-dice-3": "roll for",
-    "too-many-nested-groups": "Too many nested dice groups, please limit yourself to 10"
+	"roll-one-die-0": "Got a",
+	"roll-one-die-1": "from a",
+	"roll-one-die-2": "roll for",
+	"roll-many-dice-0": "Got",
+	"roll-many-dice-1": "(individual rolls:",
+	"roll-many-dice-2": ") from a",
+	"roll-many-dice-3": "roll for",
+	"too-many-nested-groups": "Too many nested dice groups, please limit yourself to 10"
 }

@@ -1,39 +1,39 @@
 {
-    "id": "nodebb-plugin-ws-dice",
-    "url": "https://github.com/NodeBB/nodebb-plugin-ws-dice",
-    "library": "./library.js",
-    "hooks": [
-        {
-            "hook": "filter:topicEvents.init",
-            "method": "addTopicEvents"
-        },
-        {
-            "hook": "filter:post.create",
-            "method": "createPost"
-        },
-        {
-            "hook": "filter:post.edit",
-            "method": "editPost"
-        },
-        {
-            "hook": "filter:parse.post",
-            "method": "parsePost"
-        },
-        {
-            "hook": "action:messaging.save",
-            "method": "onSentMessage"
-        }
-    ],
-    "staticDirs": {
-        "static": "./static"
-    },
-    "less": [
-        "static/style.less"
-    ],
-    "scripts": [
-        "static/lib/main.js"
-    ],
-    "templates": "static/templates",
-    "languages": "static/languages",
-    "defaultLang": "en_GB"
+	"id": "nodebb-plugin-ws-dice",
+	"url": "https://github.com/NodeBB/nodebb-plugin-ws-dice",
+	"library": "./library.js",
+	"hooks": [
+		{
+			"hook": "filter:topicEvents.init",
+			"method": "addTopicEvents"
+		},
+		{
+			"hook": "filter:post.create",
+			"method": "createPost"
+		},
+		{
+			"hook": "filter:post.edit",
+			"method": "editPost"
+		},
+		{
+			"hook": "filter:parse.post",
+			"method": "parsePost"
+		},
+		{
+			"hook": "action:messaging.save",
+			"method": "onSentMessage"
+		}
+	],
+	"staticDirs": {
+		"static": "./static"
+	},
+	"less": [
+		"static/style.less"
+	],
+	"scripts": [
+		"static/lib/main.js"
+	],
+	"templates": "static/templates",
+	"languages": "static/languages",
+	"defaultLang": "en_GB"
 }

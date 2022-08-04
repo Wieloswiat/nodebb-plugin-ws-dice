@@ -1,10 +1,10 @@
 {
-    "roll-one-die-0": "Wyrzucono",
-    "roll-one-die-1": "rzucając",
-    "roll-one-die-2": "dla",
-    "roll-many-dice-0": "Wyrzucono",
-    "roll-many-dice-1": "(wszystkie rzuty:",
-    "roll-many-dice-2": ") rzucając",
-    "roll-many-dice-3": "dla",
-    "too-many-nested-groups": "Zbyt dużo grup w grupach! Ogranicz się do 10"
+	"roll-one-die-0": "Wyrzucono",
+	"roll-one-die-1": "rzucając",
+	"roll-one-die-2": "dla",
+	"roll-many-dice-0": "Wyrzucono",
+	"roll-many-dice-1": "(wszystkie rzuty:",
+	"roll-many-dice-2": ") rzucając",
+	"roll-many-dice-3": "dla",
+	"too-many-nested-groups": "Zbyt dużo grup w grupach! Ogranicz się do 10"
 }
