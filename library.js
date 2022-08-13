@@ -56,7 +56,7 @@ function createText(total, rolls, diceUsed, notation) {
 			escapeHTML(
 				notation,
 			)
-		} [[dice:roll-one-die-2]]</span>`;
+		}[[dice:roll-one-die-2]]</span>`;
 		return text;
 	}
 	let diceString = '';
@@ -74,7 +74,7 @@ function createText(total, rolls, diceUsed, notation) {
 			escapeHTML(
 				notation,
 			)
-		} [[dice:roll-many-dice-3]]</span>`;
+		}[[dice:roll-many-dice-3]]</span>`;
 	return text;
 }
 function parseRollGroup(rolls, diceEntry, diceString, i = 10) {
