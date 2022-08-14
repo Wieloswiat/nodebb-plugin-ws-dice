@@ -1,0 +1,10 @@
+{
+    "roll-one-die-0": "A obtenu un",
+    "roll-one-die-1": "sur un lancé de",
+    "roll-one-die-2": " par",
+    "roll-many-dice-0": "A obtenu",
+    "roll-many-dice-1": "(Lancé individuel:",
+    "roll-many-dice-2": ") sur un lancé de",
+    "roll-many-dice-3": " par",
+    "too-many-nested-groups": "Trop de groupes de dés imbriqués, veuillez vous limiter à 10"
+}
