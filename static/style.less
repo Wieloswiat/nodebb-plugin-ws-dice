@@ -26,20 +26,31 @@
 .df-event-icon {
   font-size: 3rem;
   display: inline-flex;
+  position: relative;
+  top: 0.5rem;
 }
-.dice-event-text {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
+
+li[data-topic-event-type="dice"] {
+  padding-left: 34px;
+  display: block;
 }
-.timeline-text:has(i.df-event-icon) {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
+li[data-topic-event-type="dice"] > span {
+  display: inline;
+  vertical-align: baseline;
 }
-.df-text {
-  margin-left: 0.5rem;
+li[data-topic-event-type="dice"] > .timeline-badge {
+  margin-left: -51px !important;
+  margin-top: 0.5rem;
 }
+li[data-topic-event-type="dice"] > .timeline-text {
+  display: inline;
+}
+
+
+li[data-topic-event-type="dice"] span.avatar {
+  vertical-align: text-bottom;
+}
+
 /*
   Icon Font: dicefont
 */
@@ -264,3 +275,6 @@
 .df-solid-small-dot-d6-4:before { content: "\f18c"; }
 .df-solid-small-dot-d6-5:before { content: "\f18d"; }
 .df-solid-small-dot-d6-6:before { content: "\f18e"; }
+
+
+// todo: once the PR merges turn the whole flex into a block and then add padding to left (with icon having smaller margin-left)

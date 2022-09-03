@@ -4,10 +4,6 @@
 	"library": "./library.js",
 	"hooks": [
 		{
-			"hook": "static:app.load",
-			"method": "init"
-		},
-		{
 			"hook": "filter:topicEvents.init",
 			"method": "addTopicEvents"
 		},
@@ -39,5 +35,8 @@
 	],
 	"templates": "static/templates",
 	"languages": "static/languages",
-	"defaultLang": "en_GB"
+	"defaultLang": "en_GB",
+	"upgrades": [
+		"./upgrades/dice_remove_unnecessary_span.js"
+	]
 }

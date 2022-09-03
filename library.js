@@ -8,7 +8,6 @@ const {
 	Results: { RollResults },
 	Dice: { FudgeDice },
 } = require('@dice-roller/rpg-dice-roller');
-const runMigrations = require('./migrations');
 
 const { escapeHTML } = require.main.require('./src/utils');
 const { events, getTopicField } = require.main.require('./src/topics');
@@ -27,10 +26,6 @@ const roller = new DiceRoller();
 const { generator } = NumberGenerator;
 generator.engines = NumberGenerator.engines.nodeCrypto;
 
-plugin.init = async function () {
-	await runMigrations('ws-dice-settings');
-};
-
 plugin.addTopicEvents = async function ({ types }) {
 	types.dice = {
 		icon: 'fa-dice',
@@ -40,12 +35,13 @@ plugin.addTopicEvents = async function ({ types }) {
 
 function createText(total, rolls, diceUsed, notation) {
 	if (rolls.length === 1 && diceUsed[0].qty === 1) {
-		let text = '<span class="dice-event-text">[[dice:roll-one-die-0]] ';
-		let sides = diceUsed[0].sides;
+		let text = '[[dice:roll-one-die-0]] ';
+		let { sides } = diceUsed[0];
 		let iconValue = total;
 		if (diceUsed[0] instanceof FudgeDice) {
 			sides = 'F';
-			iconValue = total === 1 ? 'plus' : total === -1 ? 'minus' : 'zero';
+			// eslint-disable-next-line no-nested-ternary
+			iconValue = total === 1 ? 'plus' : (total === -1 ? 'minus' : 'zero');
 		}
 		if (dice.includes(`d${sides}`)) {
 			text += `<i class="df-d${sides}-${iconValue} df-event-icon"></i><span class="df-icon-text">${total}</span>`;
@@ -56,7 +52,7 @@ function createText(total, rolls, diceUsed, notation) {
 			escapeHTML(
 				notation,
 			)
-		}[[dice:roll-one-die-2]]</span>`;
+		}[[dice:roll-one-die-2]]`;
 		return text;
 	}
 	let diceString = '';
@@ -69,12 +65,11 @@ function createText(total, rolls, diceUsed, notation) {
 			);
 		}
 	}
-	let text =
-		`<span class="dice-event-text">[[dice:roll-many-dice-0]] ${total} [[dice:roll-many-dice-1]] ${diceString} [[dice:roll-many-dice-2]] ${
-			escapeHTML(
-				notation,
-			)
-		}[[dice:roll-many-dice-3]]</span>`;
+	const text = `[[dice:roll-many-dice-0]] ${total} [[dice:roll-many-dice-1]] ${diceString} [[dice:roll-many-dice-2]] ${
+		escapeHTML(
+			notation,
+		)
+	}[[dice:roll-many-dice-3]]`;
 	return text;
 }
 function parseRollGroup(rolls, diceEntry, diceString, i = 10) {
@@ -107,7 +102,7 @@ function parseRollGroup(rolls, diceEntry, diceString, i = 10) {
 		}
 		return diceString;
 	}
-	let sides = diceEntry.sides;
+	let { sides } = diceEntry;
 	if (diceEntry instanceof FudgeDice) {
 		sides = 'F';
 	}
@@ -115,10 +110,11 @@ function parseRollGroup(rolls, diceEntry, diceString, i = 10) {
 		rolls = rolls.rolls;
 	}
 	for (const roll of rolls) {
-		if (typeof roll != 'object') continue;
+		if (typeof roll !== 'object') continue;
 		if (dice.includes(`d${sides}`)) {
 			let iconValue = roll.value;
 			if (diceEntry instanceof FudgeDice) {
+				// eslint-disable-next-line no-nested-ternary
 				iconValue = roll.value === 1
 					? 'plus'
 					: roll.value === -1
@@ -135,13 +131,16 @@ function parseRollGroup(rolls, diceEntry, diceString, i = 10) {
 }
 
 async function parseCommands(post) {
-	let commands = post.content.matchAll(/^\s*\/roll([^#\n]+)(#[^\n]*)?$/gim);
+	const commands = post.content.matchAll(/^\s*\/roll([^#\n]+)(#[^\n]*)?$/gim);
 	let eventsData = [];
 	for (let [, notation] of commands) {
 		notation = notation
 			.replaceAll(/\s/gm, () => '')
 			.replaceAll(/\d*k\d+/gim, 'd');
-		let total, rolls, diceUsed, parsedNotation;
+		let total;
+		let rolls;
+		let diceUsed;
+		let parsedNotation;
 		try {
 			({
 				total,
@@ -174,12 +173,15 @@ async function parseCommands(post) {
 
 async function parseChatCommands(message) {
 	const results = [];
-	let commands = message.cleanedContent.matchAll(/^\s*\/roll([^#\n]+)(#[^\n]*)?$/gim);
+	const commands = message.cleanedContent.matchAll(/^\s*\/roll([^#\n]+)(#[^\n]*)?$/gim);
 	for (let [, notation] of commands) {
 		notation = notation
 			.replaceAll(/\s/gm, () => '')
 			.replaceAll(/\d*k\d+/gim, 'd');
-		let total, rolls, diceUsed, parsedNotation;
+		let total;
+		let rolls;
+		let diceUsed;
+		let parsedNotation;
 		try {
 			({
 				total,
@@ -216,21 +218,20 @@ plugin.parsePost = async function ({ postData }) {
 	if (postData.content.split('<p').length > 2) {
 		postData.content = postData.content.replaceAll(
 			/^(<p dir="auto">)?\/\u200B?roll(?<rollData>[^#\n]+)(?<rollComment>#[^\n]+)?(<br>|<\/p>|$)/gimu,
-			(_text, _p1, rollData, rollComment) => {
-				return `<div class="dice-roll-hidden">/roll${rollData}</div>
+			(_text, _p1, rollData, rollComment) =>
+				`<div class="dice-roll-hidden">/roll${rollData}</div>
                 ${
 					rollComment && rollComment.length > 0 && rollComment[0] === '#'
-						? '<p dir="auto">' + rollComment.substr(1) + '</p>'
+						? `<p dir="auto">${rollComment.substr(1)}</p>`
 						: ''
-				}`;
-			},
+				}`,
 		);
 	}
 	return { postData };
 };
 
 plugin.onSentMessage = async function ({ message, data }) {
-	let results = await parseChatCommands(message);
+	const results = await parseChatCommands(message);
 
 	for (const result of results ?? []) {
 		addSystemMessage(`dice-ignore]]${result} [[modules:chat.system.dice-for`, data.uid, data.roomId);

@@ -2,5 +2,9 @@
 	"extends": "nodebb",
 	"parserOptions": {
 		"ecmaVersion": 2020
+	},
+	"rules": {
+		"no-continue": "off",
+		"no-await-in-loop": "off"
 	}
 }
