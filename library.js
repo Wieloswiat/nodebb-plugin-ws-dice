@@ -17,15 +17,14 @@ const { getUidsFromSet } = require.main.require('./src/user');
 const { filterUids } = require.main.require('./src/privileges/categories');
 
 const escapeCharMap = Object.freeze({
-	'&': '&',
-	'<': '<',
-	'>': '>',
-	'"': '”',
-	"'": '’',
-	'=': '＝',
+	'&': '&#38;',
+	'<': '&#60;',
+	'>': '&#62;',
+	'"': '&#34;',
+	"'": '&#39;',
 });
 
-const escapeChars = /[&<>"'=]/g;
+const escapeChars = /[&<>"']/g;
 
 const escapeHTML = (str) => {
 	if (str == null) {
@@ -214,7 +213,7 @@ async function parseChatCommands(message) {
 			continue;
 		}
 		const text = createText(total, rolls, diceUsed, parsedNotation);
-		results.push(text.replaceAll(/<[^>]+>/gm, '').replaceAll('&lt;', '<').replaceAll('&gt;', '>'));
+		results.push(text.replaceAll(/<[^>]+>/gm, '').trim());
 	}
 	return results;
 }
