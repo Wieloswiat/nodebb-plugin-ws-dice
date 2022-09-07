@@ -9,13 +9,33 @@ const {
 	Dice: { FudgeDice },
 } = require('@dice-roller/rpg-dice-roller');
 
-const { escapeHTML } = require.main.require('./src/utils');
 const { events, getTopicField } = require.main.require('./src/topics');
 const { getPostData } = require.main.require('./src/posts');
 const { addSystemMessage } = require.main.require('./src/messaging');
 const { emitToUids } = require.main.require('./src/socket.io/helpers');
 const { getUidsFromSet } = require.main.require('./src/user');
 const { filterUids } = require.main.require('./src/privileges/categories');
+
+const escapeCharMap = Object.freeze({
+	'&': '&',
+	'<': '<',
+	'>': '>',
+	'"': '”',
+	"'": '’',
+	'=': '＝',
+});
+
+const escapeChars = /[&<>"'=]/g;
+
+const escapeHTML = (str) => {
+	if (str == null) {
+		return '';
+	}
+	if (!str) {
+		return String(str);
+	}
+	return str.toString().replace(escapeChars, char => escapeCharMap[char]);
+};
 
 const plugin = {};
 
@@ -114,12 +134,9 @@ function parseRollGroup(rolls, diceEntry, diceString, i = 10) {
 		if (dice.includes(`d${sides}`)) {
 			let iconValue = roll.value;
 			if (diceEntry instanceof FudgeDice) {
-				// eslint-disable-next-line no-nested-ternary
-				iconValue = roll.value === 1
-					? 'plus'
-					: roll.value === -1
-					? 'minus'
-					: 'zero';
+				if (roll.value === 1) iconValue = 'plus';
+				else if (roll.value === -1) iconValue = 'minus';
+				else iconValue = 'zero';
 			}
 			diceString +=
 				`<i class="df-d${sides}-${iconValue} df-event-icon"></i><span class="df-icon-text">${roll.value}</span> `;
@@ -218,13 +235,12 @@ plugin.parsePost = async function ({ postData }) {
 	if (postData.content.split('<p').length > 2) {
 		postData.content = postData.content.replaceAll(
 			/^(<p dir="auto">)?\/\u200B?roll(?<rollData>[^#\n]+)(?<rollComment>#[^\n]+)?(<br>|<\/p>|$)/gimu,
-			(_text, _p1, rollData, rollComment) =>
-				`<div class="dice-roll-hidden">/roll${rollData}</div>
-                ${
-					rollComment && rollComment.length > 0 && rollComment[0] === '#'
-						? `<p dir="auto">${rollComment.substr(1)}</p>`
-						: ''
-				}`,
+			(_text, _p1, rollData, rollComment) => {
+				const rollCommentText = rollComment && rollComment.length > 0 && rollComment[0] === '#' ?
+					`<p dir="auto">${rollComment.substr(1)}</p>` :
+					'';
+				return `<div class="dice-roll-hidden">/roll${rollData}</div> ${rollCommentText}`;
+			},
 		);
 	}
 	return { postData };
