@@ -22,9 +22,21 @@ const escapeCharMap = Object.freeze({
 	'>': '&#62;',
 	'"': '&#34;',
 	"'": '&#39;',
+	'=': '&#61;',
 });
 
-const escapeChars = /[&<>"']/g;
+const chatMap = Object.freeze({
+	'&#38;': '＆',
+	'&#60;': '＜',
+	'&#62;': '＞',
+	'&#34;': '＂',
+	'&#39;': '＇',
+	'&#61;': '＝',
+});
+
+const escapeChars = /[&<>"'=]/g;
+
+const escapeChatChars = /(&#38;|&#60;|&#62;|&#34;|&#39;|&#61;)/g;
 
 const escapeHTML = (str) => {
 	if (str == null) {
@@ -34,6 +46,16 @@ const escapeHTML = (str) => {
 		return String(str);
 	}
 	return str.toString().replace(escapeChars, char => escapeCharMap[char]);
+};
+
+const escapeChat = (str) => {
+	if (str == null) {
+		return '';
+	}
+	if (!str) {
+		return String(str);
+	}
+	return str.toString().replace(escapeChatChars, char => chatMap[char]);
 };
 
 const plugin = {};
@@ -213,7 +235,7 @@ async function parseChatCommands(message) {
 			continue;
 		}
 		const text = createText(total, rolls, diceUsed, parsedNotation);
-		results.push(text.replaceAll(/<[^>]+>/gm, '').trim());
+		results.push(escapeChat(text.replaceAll(/<[^>]+>/gm, '')).trim());
 	}
 	return results;
 }
@@ -227,7 +249,7 @@ plugin.createPost = async function ({ post, data }) {
 plugin.editPost = async function ({ post, data }) {
 	let postData = await getPostData(data.pid);
 	postData = await parseCommands(postData);
-	post.content = post.content.replaceAll(/^\s*\/roll/g, () => '/\u200Broll');
+	post.content = postData.content.replaceAll(/^\s*\/roll/g, () => '/\u200Broll');
 	return { post, data };
 };
 plugin.parsePost = async function ({ postData }) {
