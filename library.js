@@ -169,12 +169,12 @@ function parseRollGroup(rolls, diceEntry, diceString, i = 10) {
 }
 
 async function parseCommands(post) {
-	const commands = post.content.matchAll(/^\s*\/roll([^#\n]+)(#[^\n]*)?$/gim);
+	const commands = post.content.matchAll(/^\s*\/roll([^#\n]+)(#[^\n]*)?$/gimu);
 	let eventsData = [];
 	for (let [, notation] of commands) {
 		notation = notation
-			.replaceAll(/\s/gm, () => '')
-			.replaceAll(/\d*k\d+/gim, 'd');
+			.replaceAll(/\s/gmu, () => '')
+			.replaceAll(/\d*k\d+/gimu, 'd');
 		let total;
 		let rolls;
 		let diceUsed;
@@ -241,15 +241,16 @@ async function parseChatCommands(message) {
 }
 
 plugin.createPost = async function ({ post, data }) {
-	post.content = post.content.replaceAll(/^\s*\/\u200B+roll/giu, () => '/roll');
+	post.content = post.content.replaceAll(/^\s*\/\u200B+roll/gimu, () => '/roll');
 	post = await parseCommands(post);
-	post.content = post.content.replaceAll(/^\s*\/roll/g, () => '/\u200Broll');
+	post.content = post.content.replaceAll(/^\s*\/roll/gimu, () => '/\u200Broll');
 	return { post, data };
 };
 plugin.editPost = async function ({ post, data }) {
 	let postData = await getPostData(data.pid);
+	postData.content = post.content;
 	postData = await parseCommands(postData);
-	post.content = postData.content.replaceAll(/^\s*\/roll/g, () => '/\u200Broll');
+	post.content = postData.content.replaceAll(/^\s*\/roll/gimu, () => '/\u200Broll');
 	return { post, data };
 };
 plugin.parsePost = async function ({ postData }) {
