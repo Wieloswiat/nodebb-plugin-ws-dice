@@ -4,9 +4,6 @@ const {
 	DiceRoller,
 	NumberGenerator,
 	Parser,
-	RollGroup,
-	Results: { RollResults },
-	Dice: { FudgeDice },
 } = require('@dice-roller/rpg-dice-roller');
 
 
@@ -169,10 +166,10 @@ function parseRollGroup(rolls, diceEntry, diceString, i = 10) {
 		return diceString;
 	}
 	let { sides } = diceEntry;
-	if (diceEntry) {
+	if (diceEntry.name === 'fudge') {
 		sides = 'F';
 	}
-	if (rolls.name === 'fudge') {
+	if (rolls.rolls !== undefined) {
 		rolls = rolls.rolls;
 	}
 	for (const roll of rolls) {
