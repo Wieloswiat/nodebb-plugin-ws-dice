@@ -27,8 +27,8 @@
 	"staticDirs": {
 		"static": "./static"
 	},
-	"less": [
-		"static/style.less"
+	"scss": [
+		"static/style.scss"
 	],
 	"scripts": [
 		"static/lib/main.js"

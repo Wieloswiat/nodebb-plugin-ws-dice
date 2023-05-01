@@ -9,12 +9,19 @@ const {
 	Dice: { FudgeDice },
 } = require('@dice-roller/rpg-dice-roller');
 
+
+const nconf = require.main.require('nconf');
 const { events, getTopicField } = require.main.require('./src/topics');
 const { getPostData } = require.main.require('./src/posts');
 const { addSystemMessage } = require.main.require('./src/messaging');
 const { emitToUids } = require.main.require('./src/socket.io/helpers');
 const { getUidsFromSet } = require.main.require('./src/user');
 const { filterUids } = require.main.require('./src/privileges/categories');
+const helpers = require.main.require('./src/helpers');
+const utils = require.main.require('./src/utils');
+const translator = require.main.require('./src/translator');
+
+const relative_path = nconf.get('relative_path');
 
 const escapeCharMap = Object.freeze({
 	'&': '&#38;',
@@ -70,9 +77,24 @@ generator.engines = NumberGenerator.engines.nodeCrypto;
 plugin.addTopicEvents = async function ({ types }) {
 	types.dice = {
 		icon: 'fa-dice',
+		translation: translateDiceEvent
 	};
 	return { types };
 };
+
+function renderUser(user) {
+	return `${helpers.buildAvatar(user, '16px', true)} <a href="${relative_path}/user/${user.userslug}">${user.username}</a>`;
+}
+
+function renderTimeago(timestamp) {
+	return `<span class="timeago timeline-text" title="${timestamp}"></span>`;
+}
+
+async function translateDiceEvent(event) {
+	const diceText = createText(event.total, event.rolls, event.diceUsed, event.parsedNotation);
+	const text = `${diceText} ${renderUser(event.user)} ${renderTimeago(event.timestampISO)}`;
+	return utils.decodeHTMLEntities(await translator.translate(text));
+}
 
 function createText(total, rolls, diceUsed, notation) {
 	if (rolls.length === 1 && diceUsed[0].qty === 1) {
@@ -113,6 +135,7 @@ function createText(total, rolls, diceUsed, notation) {
 	}[[dice:roll-many-dice-3]]`;
 	return text;
 }
+
 function parseRollGroup(rolls, diceEntry, diceString, i = 10) {
 	if (typeof diceEntry !== 'object' || typeof rolls !== 'object') return;
 	if (i < 0) {
@@ -193,10 +216,12 @@ async function parseCommands(post) {
 		if (rolls.length === 0) {
 			continue;
 		}
-		const text = createText(total, rolls, diceUsed, parsedNotation);
 		const event = {
 			type: 'dice',
-			text,
+			total,
+			rolls,
+			diceUsed,
+			parsedNotation,
 			uid: post.uid,
 		};
 		const eventData = await events.log(post.tid, event);
