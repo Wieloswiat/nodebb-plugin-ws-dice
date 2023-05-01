@@ -77,7 +77,7 @@ generator.engines = NumberGenerator.engines.nodeCrypto;
 plugin.addTopicEvents = async function ({ types }) {
 	types.dice = {
 		icon: 'fa-dice',
-		translation: translateDiceEvent
+		translation: translateDiceEvent,
 	};
 	return { types };
 };
@@ -91,7 +91,9 @@ function renderTimeago(timestamp) {
 }
 
 async function translateDiceEvent(event) {
-	const diceText = createText(event.total, event.rolls, event.diceUsed, event.parsedNotation);
+	const diceText = event.text === undefined ?
+		createText(event.total, JSON.parse(event.rolls), JSON.parse(event.diceUsed), event.parsedNotation) :
+		event.text;
 	const text = `${diceText} ${renderUser(event.user)} ${renderTimeago(event.timestampISO)}`;
 	return utils.decodeHTMLEntities(await translator.translate(text));
 }
@@ -101,7 +103,7 @@ function createText(total, rolls, diceUsed, notation) {
 		let text = '[[dice:roll-one-die-0]] ';
 		let { sides } = diceUsed[0];
 		let iconValue = total;
-		if (diceUsed[0] instanceof FudgeDice) {
+		if (diceUsed[0].name === 'fudge') {
 			sides = 'F';
 			// eslint-disable-next-line no-nested-ternary
 			iconValue = total === 1 ? 'plus' : (total === -1 ? 'minus' : 'zero');
@@ -141,7 +143,7 @@ function parseRollGroup(rolls, diceEntry, diceString, i = 10) {
 	if (i < 0) {
 		throw new Error('[[dice:too-many-nested-groups]]');
 	}
-	if (diceEntry instanceof RollGroup) {
+	if (diceEntry.isRollGroup) {
 		for (
 			const [
 				groupIndex,
@@ -167,17 +169,17 @@ function parseRollGroup(rolls, diceEntry, diceString, i = 10) {
 		return diceString;
 	}
 	let { sides } = diceEntry;
-	if (diceEntry instanceof FudgeDice) {
+	if (diceEntry) {
 		sides = 'F';
 	}
-	if (rolls instanceof RollResults) {
+	if (rolls.name === 'fudge') {
 		rolls = rolls.rolls;
 	}
 	for (const roll of rolls) {
 		if (typeof roll !== 'object') continue;
 		if (dice.includes(`d${sides}`)) {
 			let iconValue = roll.value;
-			if (diceEntry instanceof FudgeDice) {
+			if (diceEntry.name === 'fudge') {
 				if (roll.value === 1) iconValue = 'plus';
 				else if (roll.value === -1) iconValue = 'minus';
 				else iconValue = 'zero';
@@ -219,8 +221,8 @@ async function parseCommands(post) {
 		const event = {
 			type: 'dice',
 			total,
-			rolls,
-			diceUsed,
+			rolls: JSON.stringify(rolls),
+			diceUsed: JSON.stringify(diceUsed),
 			parsedNotation,
 			uid: post.uid,
 		};

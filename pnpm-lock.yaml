@@ -16,8 +16,8 @@ devDependencies:
     specifier: 17.0.3
     version: 17.0.3
   '@commitlint/config-angular':
-    specifier: 17.0.3
-    version: 17.0.3
+    specifier: 17.4.4
+    version: 17.4.4
   eslint:
     specifier: 8.26.0
     version: 8.26.0
@@ -25,14 +25,14 @@ devDependencies:
     specifier: 15.0.0
     version: 15.0.0(eslint-plugin-import@2.26.0)(eslint@8.26.0)
   eslint-config-nodebb:
-    specifier: ^0.1.1
-    version: 0.1.1(eslint-plugin-import@2.26.0)(eslint@8.26.0)
+    specifier: ^0.2.1
+    version: 0.2.1(eslint-plugin-import@2.26.0)(eslint@8.26.0)
   eslint-plugin-import:
     specifier: 2.26.0
     version: 2.26.0(eslint@8.26.0)
   husky:
-    specifier: 8.0.1
-    version: 8.0.1
+    specifier: 8.0.3
+    version: 8.0.3
   lint-staged:
     specifier: 13.0.3
     version: 13.0.3
@@ -92,8 +92,8 @@ packages:
     engines: {node: '>=v14'}
     dev: true
 
-  /@commitlint/config-angular@17.0.3:
-    resolution: {integrity: sha512-syeEtOmkLEyrq2VVJxvvtMUYovFCg3QVK818FA6lmUqgi+HtoM5zgm1ZjF6CUgZc4PcyAwfQwRjVtmeQC2yBEA==}
+  /@commitlint/config-angular@17.4.4:
+    resolution: {integrity: sha512-ulCgBc1sDWwwW0HKGQDurcfWbWw1PZjwOFzeL2PZq3jcOgPfOzEHqE3dIjycB5DKlWNx4kUMcgwMWaX/zUtBNg==}
     engines: {node: '>=v14'}
     dependencies:
       '@commitlint/config-angular-type-enum': 17.4.0
@@ -921,8 +921,8 @@ packages:
       semver: 6.3.0
     dev: true
 
-  /eslint-config-nodebb@0.1.1(eslint-plugin-import@2.26.0)(eslint@8.26.0):
-    resolution: {integrity: sha512-+LSX8iYe10fKb6k4JuyMygce7GQMSMsttdgi+BO+v+P3tXXxH//OUnEfZ2cbTungZap9Z8NuK6Tog1wrRQo6CQ==}
+  /eslint-config-nodebb@0.2.1(eslint-plugin-import@2.26.0)(eslint@8.26.0):
+    resolution: {integrity: sha512-oElsZTuYW9W99/C+XnqFYqHzveOXaoBNeCUsAKBJff2KDBXCeoPkhOBoaPf3WSJslrfigOAaUtFZNc4KXNhvow==}
     peerDependencies:
       eslint: 7.x || 8.x
       eslint-plugin-import: 2.x
@@ -1405,8 +1405,8 @@ packages:
     engines: {node: '>=12.20.0'}
     dev: true
 
-  /husky@8.0.1:
-    resolution: {integrity: sha512-xs7/chUH/CKdOCs7Zy0Aev9e/dKOMZf3K1Az1nar3tzlv0jfqnYtu235bstsWTmXOR0EfINrPa97yy4Lz6RiKw==}
+  /husky@8.0.3:
+    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
