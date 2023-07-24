@@ -16,8 +16,8 @@ devDependencies:
     specifier: 17.0.3
     version: 17.0.3
   '@commitlint/config-angular':
-    specifier: 17.4.4
-    version: 17.4.4
+    specifier: 17.6.7
+    version: 17.6.7
   eslint:
     specifier: 8.26.0
     version: 8.26.0
@@ -92,8 +92,8 @@ packages:
     engines: {node: '>=v14'}
     dev: true
 
-  /@commitlint/config-angular@17.4.4:
-    resolution: {integrity: sha512-ulCgBc1sDWwwW0HKGQDurcfWbWw1PZjwOFzeL2PZq3jcOgPfOzEHqE3dIjycB5DKlWNx4kUMcgwMWaX/zUtBNg==}
+  /@commitlint/config-angular@17.6.7:
+    resolution: {integrity: sha512-ZKLybxBPCtpDkEf82YdfUMXbO23ERa1h/UUF7SV+C4IMjBP1UgIOm1LXSafJ2NKf6rbtjR10tUL4c236K3TvnQ==}
     engines: {node: '>=v14'}
     dependencies:
       '@commitlint/config-angular-type-enum': 17.4.0
