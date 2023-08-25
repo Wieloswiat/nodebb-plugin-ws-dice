@@ -23,9 +23,9 @@ jobs:
             nodebb: master
             lint: true # we only want to lint once
         exclude:
-          # pre-release means living on the edge... of LTS releases too I guess
-          - nodebb: master
-            node: 16
+            # pre-release means living on the edge... of LTS releases too I guess
+            - nodebb: master
+              node: 16
     services:
       postgres:
         image: ${{ startsWith(matrix.database, 'postgres') && 'postgres:15-alpine' || '' }}
@@ -76,11 +76,11 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: Install plugin dependencies
         working-directory: tested-plugin
-        run: yarn
+        run: pnpm install
       - name: Run ESLint
         if: matrix.lint
         working-directory: tested-plugin
-        run: yarn lint
+        run: pnpm lint
       - name: Get npm cache directory
         id: npm-cache-dir
         shell: bash

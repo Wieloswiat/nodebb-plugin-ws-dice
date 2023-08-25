@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@dice-roller/rpg-dice-roller':
-    specifier: ^5.2.1
-    version: 5.2.1
+    specifier: 5.3.2
+    version: 5.3.2
   expressionparser:
     specifier: ^1.1.5
     version: 1.1.5
@@ -257,8 +257,8 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: true
 
-  /@dice-roller/rpg-dice-roller@5.2.1:
-    resolution: {integrity: sha512-6GBwrsu6iKS7n+tJENm6PCflrEQdmF49XnCDRZLunYFS7Bx4WwNLL/GNei/CeWclZChmgcVysmpN12ftVuEISQ==}
+  /@dice-roller/rpg-dice-roller@5.3.2:
+    resolution: {integrity: sha512-DoOWEgYmkTWWtJ2giuwAaWqG9j/huVHaYdXJE7tu4BOBq9Jlu/4YWlx8lrtV58vPAxTwSFq+/9ZakHYinf7Usw==}
     engines: {node: '>=12.0'}
     dependencies:
       mathjs: 11.9.1
