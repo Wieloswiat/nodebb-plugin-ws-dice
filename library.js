@@ -127,7 +127,7 @@ function createText(total, rolls, diceUsed, notation) {
 			);
 		}
 	}
-	const text = `[[dice:roll-many-dice-0]] ${total} [[dice:roll-many-dice-1]] ${diceString} [[dice:roll-many-dice-2]] ${
+	const text = `[[dice:roll-many-dice-0]] ${total} [[dice:roll-many-dice-1]] ${diceString}[[dice:roll-many-dice-2]] ${
 		escapeHTML(
 			notation,
 		)
@@ -235,7 +235,7 @@ async function parseCommands(post) {
 
 async function parseChatCommands(message) {
 	const results = [];
-	const commands = message.cleanedContent.matchAll(/^\s*\/roll([^#\n]+)(#[^\n]*)?$/gim);
+	const commands = message.content.matchAll(/^\s*\/roll([^#\n]+)(#[^\n]*)?$/gim);
 	for (let [, notation] of commands) {
 		notation = notation
 			.replaceAll(/\s/gm, () => '')
