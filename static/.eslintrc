@@ -1,0 +1,6 @@
+{
+	"extends": "nodebb/public",
+	"parserOptions": {
+		"ecmaVersion": 2020
+	}
+}
