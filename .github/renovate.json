@@ -16,5 +16,19 @@
   ],
   "assigneesFromCodeOwners": true,
   "rangeStrategy": "auto",
-  "updateLockFiles": true
+  "updateLockFiles": true,
+  "packageRules": [
+    {
+        "matchUpdateTypes": [
+            "minor",
+            "patch",
+            "pin",
+            "digest",
+            "lockFileMaintenance",
+            "bump"
+        ],
+        "automerge": true,
+        "automergeType": "branch"
+    }
+  ]
 }
