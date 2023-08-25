@@ -5,6 +5,8 @@ define('plugins/dice/main', [
 	'hooks',
 ], (posts, hooks) => {
 	socket.on('plugins:dice:event:new_roll', (data) => {
-		hooks.one('action:posts.loaded', () => posts.addTopicEvents(data));
+		if (Array.isArray(data) && data.length && data.some(e => e.type === 'dice')) {
+			hooks.one('action:posts.loaded', () => posts.addTopicEvents(data));
+		}
 	});
 });
