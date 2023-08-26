@@ -1,76 +1,71 @@
 .dice-roll-hidden {
-    display: none;
+  display: none;
 }
 
 .df-icon-text {
-  display: inline-block;
-  position: relative;
-  z-index: 2;
-  bottom: 0.25rem;
-  margin-left: -2rem;
-  width: 2rem;
-  color: rgba(0, 0, 0, 0);
-  -webkit-user-select: text;
-  -moz-user-select: all;
-  user-select: all;
+display: inline-block;
+position: relative;
+z-index: 2;
+bottom: 0.25rem;
+margin-left: -2rem;
+width: 2rem;
+color: rgba(0, 0, 0, 0);
+-webkit-user-select: text;
+-moz-user-select: all;
+user-select: all;
 }
 .df-icon-text::selection {
-  color: rgba(0, 0, 0, 0);
+color: rgba(0, 0, 0, 0);
 }
 .df-icon-text::-moz-selection {
-  color: rgba(0, 0, 0, 0);
+color: rgba(0, 0, 0, 0);
 }
 .fa[class*="df-d"] {
-  font-size: 3rem;
+font-size: 3rem;
 }
 .df-event-icon {
-  font-size: 2.5rem;
-  display: inline-flex;
-  position: relative;
+font-size: 2.5rem;
+display: inline-flex;
+position: relative;
 }
 
 li[data-topic-event-type="dice"] {
-  padding-left: 34px;
-  display: block;
+display: block;
 }
 li[data-topic-event-type="dice"] > span {
-  display: inline;
-  vertical-align: baseline;
-}
-li[data-topic-event-type="dice"] > .timeline-badge {
-  margin-left: -47px !important;
-  margin-top: 0.5rem;
+display: inline;
+vertical-align: baseline;
 }
 li[data-topic-event-type="dice"] > .timeline-text {
-  display: inline;
+display: inline;
 }
 
 
 li[data-topic-event-type="dice"] span.avatar {
-  vertical-align: text-bottom;
+vertical-align: text-bottom;
 }
 
 /*
-  Icon Font: dicefont
+Icon Font: dicefont
 */
 
 @font-face {
-    font-family: "dicefont";
-    src: url("/plugins/nodebb-plugin-ws-dice/static/fonts/dicefont.eot");
-    src: url("/plugins/nodebb-plugin-ws-dice/static/fonts/dicefont.eot?#iefix") format("embedded-opentype"),
-         url("/plugins/nodebb-plugin-ws-dice/static/fonts/dicefont.woff2") format("woff2"),
-         url("/plugins/nodebb-plugin-ws-dice/static/fonts/dicefont.woff") format("woff"),
-         url("/plugins/nodebb-plugin-ws-dice/static/fonts/dicefont.ttf") format("truetype"),
-         url("/plugins/nodebb-plugin-ws-dice/static/fonts/dicefont.svg#dicefont") format("svg");
-    font-weight: normal;
-    font-style: normal;
-  }
+  font-family: "dicefont";
+  src: url("/plugins/nodebb-plugin-ws-dice/static/fonts/dicefont.eot");
+  src: url("/plugins/nodebb-plugin-ws-dice/static/fonts/dicefont.eot?#iefix") format("embedded-opentype"),
+       url("/plugins/nodebb-plugin-ws-dice/static/fonts/dicefont.woff2") format("woff2"),
+       url("/plugins/nodebb-plugin-ws-dice/static/fonts/dicefont.woff") format("woff"),
+       url("/plugins/nodebb-plugin-ws-dice/static/fonts/dicefont.ttf") format("truetype"),
+       url("/plugins/nodebb-plugin-ws-dice/static/fonts/dicefont.svg#dicefont") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-  @font-face {
-    font-family: "dicefont";
-    src: url("./dicefont.svg#dicefont") format("svg");
-  }
+@font-face {
+  font-family: "dicefont";
+  src: url("./dicefont.svg#dicefont") format("svg");
+}
 }
 
 
@@ -171,14 +166,14 @@ li[data-topic-event-type="dice"] span.avatar {
 .df-solid-small-dot-d6-4:before,
 .df-solid-small-dot-d6-5:before,
 .df-solid-small-dot-d6-6:before {
-  font-family: "dicefont";
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  line-height: 1;
-  text-decoration: inherit;
-  text-rendering: geometricPrecision;
-  text-transform: none;
+font-family: "dicefont";
+font-style: normal;
+font-weight: normal;
+font-variant: normal;
+line-height: 1;
+text-decoration: inherit;
+text-rendering: geometricPrecision;
+text-transform: none;
 }
 
 .df-d10:before { content: "\f194"; }
@@ -274,6 +269,3 @@ li[data-topic-event-type="dice"] span.avatar {
 .df-solid-small-dot-d6-4:before { content: "\f18c"; }
 .df-solid-small-dot-d6-5:before { content: "\f18d"; }
 .df-solid-small-dot-d6-6:before { content: "\f18e"; }
-
-
-// todo: once the PR merges turn the whole flex into a block and then add padding to left (with icon having smaller margin-left)
