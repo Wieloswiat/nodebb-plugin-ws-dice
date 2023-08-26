@@ -297,7 +297,7 @@ plugin.parsePost = async function ({ postData }) {
 };
 
 plugin.onSentMessage = async function ({ message, data }) {
-	if (!message.cleanedContent) {
+	if (!message.content) {
 		return;
 	}
 	const results = await parseChatCommands(message);
