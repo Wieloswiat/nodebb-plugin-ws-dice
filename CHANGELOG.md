@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.5](https://github.com/Wieloswiat/nodebb-plugin-ws-dice/compare/v3.0.4...v3.0.5) (2023-08-26)
+
+
+### Bug Fixes
+
+* still didn't work in chat ([d294061](https://github.com/Wieloswiat/nodebb-plugin-ws-dice/commit/d294061fa932f39c722e626ee083ca8ffe5ae6ab))
+
 ## [3.0.4](https://github.com/Wieloswiat/nodebb-plugin-ws-dice/compare/v3.0.3...v3.0.4) (2023-08-25)
 
 
