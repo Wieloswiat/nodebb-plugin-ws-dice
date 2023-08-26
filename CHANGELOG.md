@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.0.6](https://github.com/Wieloswiat/nodebb-plugin-ws-dice/compare/v3.0.5...v3.0.6) (2023-08-26)
+
+
+### Bug Fixes
+
+* actually iterate over dice events ([edf5a8c](https://github.com/Wieloswiat/nodebb-plugin-ws-dice/commit/edf5a8c696f38a28d06bbf379b61867160abb49a))
+* pass in an array ([f7b0d06](https://github.com/Wieloswiat/nodebb-plugin-ws-dice/commit/f7b0d067bec380614c526c01ec6445d8541a7913))
+* remove unnecessary styling ([93364ae](https://github.com/Wieloswiat/nodebb-plugin-ws-dice/commit/93364ae19fe0631cccb40519eb8db9a4dec11edf))
+
 ## [3.0.5](https://github.com/Wieloswiat/nodebb-plugin-ws-dice/compare/v3.0.4...v3.0.5) (2023-08-26)
 
 
