@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.0.7](https://github.com/Wieloswiat/nodebb-plugin-ws-dice/compare/v3.0.6...v3.0.7) (2023-09-04)
+
+
+### Bug Fixes
+
+* eslint configuration ([2b62f4d](https://github.com/Wieloswiat/nodebb-plugin-ws-dice/commit/2b62f4d4f72d7ac305b1ba127345774e858b3224))
+* older style remains interfere with new chat icons ([6e5bd73](https://github.com/Wieloswiat/nodebb-plugin-ws-dice/commit/6e5bd733f8959a969a00ccd499ae42e5079a71fd))
+
 ## [3.0.6](https://github.com/Wieloswiat/nodebb-plugin-ws-dice/compare/v3.0.5...v3.0.6) (2023-08-26)
 
 
