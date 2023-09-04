@@ -62,12 +62,12 @@ jobs:
           # Maps port 27017 on service container to the host
           - 27017:27017
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
         with:
           repository: NodeBB/NodeBB
           ref: ${{ matrix.nodebb }}
           path: nodebb
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
         with:
           path: tested-plugin
       - uses: pnpm/action-setup@v2.4.0
