@@ -17,7 +17,7 @@ jobs:
         package-name: nodebb-plugin-ws-dice
         bootstrap-sha: 5736422f4eb86386ea5b154bc4fc99f1f2cff55c
     # The logic below handles the npm publication:
-    - uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4
+    - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
       # these if statements ensure that a publication only occurs when
       # a new release is created:
       if: ${{ steps.release.outputs.release_created }}
