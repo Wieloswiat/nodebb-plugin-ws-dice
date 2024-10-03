@@ -27,13 +27,13 @@ devDependencies:
     version: 8.57.1
   eslint-config-airbnb-base:
     specifier: 15.0.0
-    version: 15.0.0(eslint-plugin-import@2.30.0)(eslint@8.57.1)
+    version: 15.0.0(eslint-plugin-import@2.31.0)(eslint@8.57.1)
   eslint-config-nodebb:
     specifier: ^0.2.1
-    version: 0.2.1(eslint-plugin-import@2.30.0)(eslint@8.57.1)
+    version: 0.2.1(eslint-plugin-import@2.31.0)(eslint@8.57.1)
   eslint-plugin-import:
-    specifier: 2.30.0
-    version: 2.30.0(eslint@8.57.1)
+    specifier: 2.31.0
+    version: 2.31.0(eslint@8.57.1)
   husky:
     specifier: 8.0.3
     version: 8.0.3
@@ -1028,7 +1028,7 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /eslint-config-airbnb-base@15.0.0(eslint-plugin-import@2.30.0)(eslint@8.57.1):
+  /eslint-config-airbnb-base@15.0.0(eslint-plugin-import@2.31.0)(eslint@8.57.1):
     resolution: {integrity: sha512-xaX3z4ZZIcFLvh2oUNvcX5oEofXda7giYmuplVxoOg5A7EXJMrUyqRgR+mhDhPK8LZ4PttFOBvCYDbX3sUoUig==}
     engines: {node: ^10.12.0 || >=12.0.0}
     peerDependencies:
@@ -1037,21 +1037,21 @@ packages:
     dependencies:
       confusing-browser-globals: 1.0.11
       eslint: 8.57.1
-      eslint-plugin-import: 2.30.0(eslint@8.57.1)
+      eslint-plugin-import: 2.31.0(eslint@8.57.1)
       object.assign: 4.1.5
       object.entries: 1.1.8
       semver: 6.3.1
     dev: true
 
-  /eslint-config-nodebb@0.2.1(eslint-plugin-import@2.30.0)(eslint@8.57.1):
+  /eslint-config-nodebb@0.2.1(eslint-plugin-import@2.31.0)(eslint@8.57.1):
     resolution: {integrity: sha512-oElsZTuYW9W99/C+XnqFYqHzveOXaoBNeCUsAKBJff2KDBXCeoPkhOBoaPf3WSJslrfigOAaUtFZNc4KXNhvow==}
     peerDependencies:
       eslint: 7.x || 8.x
       eslint-plugin-import: 2.x
     dependencies:
       eslint: 8.57.1
-      eslint-config-airbnb-base: 15.0.0(eslint-plugin-import@2.30.0)(eslint@8.57.1)
-      eslint-plugin-import: 2.30.0(eslint@8.57.1)
+      eslint-config-airbnb-base: 15.0.0(eslint-plugin-import@2.31.0)(eslint@8.57.1)
+      eslint-plugin-import: 2.31.0(eslint@8.57.1)
     dev: true
 
   /eslint-import-resolver-node@0.3.9:
@@ -1092,12 +1092,12 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-import@2.30.0(eslint@8.57.1):
-    resolution: {integrity: sha512-/mHNE9jINJfiD2EKkg1BKyPyUk4zdnT54YgbOgfjSakWT5oyX/qQLVNTkehyfpcMxZXMy1zyonZ2v7hZTX43Yw==}
+  /eslint-plugin-import@2.31.0(eslint@8.57.1):
+    resolution: {integrity: sha512-ixmkI62Rbc2/w8Vfxyh1jQRTdRTF52VxwRVHl/ykPAmqG+Nb7/kNn+byLP0LxPgI7zWA16Jt82SybJInmMia3A==}
     engines: {node: '>=4'}
     peerDependencies:
       '@typescript-eslint/parser': '*'
-      eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8
+      eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8 || ^9
     peerDependenciesMeta:
       '@typescript-eslint/parser':
         optional: true
@@ -1120,6 +1120,7 @@ packages:
       object.groupby: 1.0.3
       object.values: 1.2.0
       semver: 6.3.1
+      string.prototype.trimend: 1.0.8
       tsconfig-paths: 3.15.0
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
