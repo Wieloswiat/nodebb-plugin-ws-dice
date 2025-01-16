@@ -48,7 +48,7 @@
 		"eslint-config-nodebb": "^0.2.1",
 		"eslint-plugin-import": "2.31.0",
 		"husky": "8.0.3",
-		"lint-staged": "15.4.0"
+		"lint-staged": "15.4.1"
 	},
 	"dependencies": {
 		"@dice-roller/rpg-dice-roller": "5.5.0",
