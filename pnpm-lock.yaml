@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@dice-roller/rpg-dice-roller':
-    specifier: 5.5.0
-    version: 5.5.0
+    specifier: 5.5.1
+    version: 5.5.1
   expressionparser:
     specifier: ^1.1.5
     version: 1.1.5
@@ -244,11 +244,11 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: true
 
-  /@dice-roller/rpg-dice-roller@5.5.0:
-    resolution: {integrity: sha512-ip318MKhfRvqzpXNQaMyqJkOWbeOlaiIopfyluantEVF706fRP4Jy0WsTZrnKhRvhJTZTJa5dTTWqcoPmt1Xww==}
+  /@dice-roller/rpg-dice-roller@5.5.1:
+    resolution: {integrity: sha512-De5/UTjihpv639XJDBOCfwuOlzIInLqCeal5rpIY9C8Qh8oaNL2/5e0wa/0lcVZyy8m+BCn5zT4eZamCnguIXQ==}
     engines: {node: '>=18.0'}
     dependencies:
-      mathjs: 11.12.0
+      mathjs: 14.2.1
       random-js: 2.1.0
     dev: false
 
@@ -1324,8 +1324,9 @@ packages:
       is-callable: 1.2.7
     dev: true
 
-  /fraction.js@4.3.4:
-    resolution: {integrity: sha512-pwiTgt0Q7t+GHZA4yaLjObx4vXmmdcS0iSJ19o8d/goUGgItX9UZWKWNnLHehxviD8wU2IWRsnR8cD5+yOJP2Q==}
+  /fraction.js@5.2.1:
+    resolution: {integrity: sha512-Ah6t/7YCYjrPUFUFsOsRLMXAdnYM+aQwmojD2Ayb/Ezr82SwES0vuyQ8qZ3QO8n9j7W14VJuVZZet8U3bhSdQQ==}
+    engines: {node: '>= 12'}
     dev: false
 
   /fs-extra@11.3.0:
@@ -2049,16 +2050,16 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /mathjs@11.12.0:
-    resolution: {integrity: sha512-UGhVw8rS1AyedyI55DGz9q1qZ0p98kyKPyc9vherBkoueLntPfKtPBh14x+V4cdUWK0NZV2TBwqRFlvadscSuw==}
-    engines: {node: '>= 14'}
+  /mathjs@14.2.1:
+    resolution: {integrity: sha512-vARWETUx75+kR2K9qBV20n6NYtGXCuQKX8Zo4+AhJI5LX+ukSM1NYebv+wLnJG8KMvEe9H01sJUyC5bMciA4Tg==}
+    engines: {node: '>= 18'}
     hasBin: true
     dependencies:
       '@babel/runtime': 7.26.7
       complex.js: 2.4.2
       decimal.js: 10.5.0
       escape-latex: 1.2.0
-      fraction.js: 4.3.4
+      fraction.js: 5.2.1
       javascript-natural-sort: 0.7.1
       seedrandom: 3.0.5
       tiny-emitter: 2.1.0
