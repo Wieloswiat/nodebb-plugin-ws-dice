@@ -10,7 +10,7 @@ dependencies:
     version: 5.5.1
   expressionparser:
     specifier: ^1.1.5
-    version: 1.1.8
+    version: 1.1.9
   semver:
     specifier: ^7.5.0
     version: 7.7.1
@@ -1250,8 +1250,8 @@ packages:
       strip-final-newline: 3.0.0
     dev: true
 
-  /expressionparser@1.1.8:
-    resolution: {integrity: sha512-CaBq/+B9plI87OFAIMsANUWQ/Be1m6CPwNygR3hbjQesVQ/4hsn1z3mbXt4oYADki0kxtlk/JHifMZ0C/KpB8Q==}
+  /expressionparser@1.1.9:
+    resolution: {integrity: sha512-istVFhzV7sde+avfrCgOXQWyVwqjQUlnLXllW3NHqYdsCZ0HjsaYmgDzH8dvnbeeM5zBpAB2qX4jZCF1htDU3Q==}
     dev: false
 
   /fast-deep-equal@3.1.3:
