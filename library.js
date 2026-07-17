@@ -7,16 +7,18 @@ const {
 } = require('@dice-roller/rpg-dice-roller');
 
 
-const nconf = require.main.require('nconf');
-const { events, getTopicField } = require.main.require('./src/topics');
-const { getPostData } = require.main.require('./src/posts');
-const { addSystemMessage } = require.main.require('./src/messaging');
-const { emitToUids } = require.main.require('./src/socket.io/helpers');
-const { getUidsFromSet } = require.main.require('./src/user');
-const { filterUids } = require.main.require('./src/privileges/categories');
-const helpers = require.main.require('./src/helpers');
-const utils = require.main.require('./src/utils');
-const translator = require.main.require('./src/translator');
+const nconf = nodebb.require('nconf');
+const { events, getTopicField } = nodebb.require('./src/topics');
+const { getPostData } = nodebb.require('./src/posts');
+
+const { emitToUids } = nodebb.require('./src/socket.io/helpers');
+const { getUidsFromSet } = nodebb.require('./src/user');
+const { filterUids } = nodebb.require('./src/privileges/categories');
+const helpers = nodebb.require('./src/helpers');
+const utils = nodebb.require('./src/utils');
+const tx = nodebb.require('./src/translator');
+const messaging = nodebb.require('./src/messaging');
+const user = nodebb.require('./src/user');
 
 const relative_path = nconf.get('relative_path');
 
@@ -87,12 +89,12 @@ function renderTimeago(timestamp) {
 	return `<span class="timeago timeline-text" title="${timestamp}"></span>`;
 }
 
-async function translateDiceEvent(event) {
+async function translateDiceEvent(event, language) {
 	const diceText = event.text === undefined ?
 		createText(event.total, JSON.parse(event.rolls), JSON.parse(event.diceUsed), event.parsedNotation) :
 		event.text;
 	const text = `${diceText} ${renderUser(event.user)} ${renderTimeago(event.timestampISO)}`;
-	return utils.decodeHTMLEntities(await translator.translate(text));
+	return utils.decodeHTMLEntities(await tx.translate(text, language));
 }
 
 function createText(total, rolls, diceUsed, notation) {
@@ -303,7 +305,18 @@ plugin.onSentMessage = async function ({ message, data }) {
 	const results = await parseChatCommands(message);
 
 	for (const result of results ?? []) {
-		addSystemMessage(`dice-ignore]]${result} [[modules:chat.system.dice-for`, data.uid, data.roomId);
+		// not using core addSystemMessage because it doesn't allow for custom content
+		const displayname = await user.getNotificationDisplayname(data.uid);
+		const message = await messaging.addMessage({
+			type: 'dice-roll',
+			// core runs tx.translate on content if system is set to 1
+			content: `${result} ${displayname}`,
+			uid: data.uid,
+			roomId: data.roomId,
+			system: 1,
+			timestamp: Date.now(),
+		});
+		messaging.notifyUsersInRoom(data.uid, data.roomId, message);
 	}
 };
 
