@@ -22,9 +22,9 @@
 const assert = require('assert');
 
 
-const topics = require.main.require('./src/topics');
-const categories = require.main.require('./src/categories');
-const user = require.main.require('./src/user');
+const topics = nodebb.require('./src/topics');
+const categories = nodebb.require('./src/categories');
+const user = nodebb.require('./src/user');
 
 
 describe('nodebb-plugin-ws-dice', () => {

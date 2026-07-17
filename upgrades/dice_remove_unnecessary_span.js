@@ -1,6 +1,6 @@
 'use strict';
 
-const { scan, setObjectBulk, getObjects } = require.main.require('./src/database');
+const { scan, setObjectBulk, getObjects } = nodebb.require('./src/database');
 async function removeSpan() {
 	const migrationRegex = /^<span class="dice-event-text">(?<text>.+)<\/span>$/;
 	const keys = await scan({ match: 'topicEvent:*' });
