@@ -1,5 +1,21 @@
 # Changelog
 
+## [4.0.0](https://github.com/Wieloswiat/nodebb-plugin-ws-dice/compare/v3.0.7...v4.0.0) (2026-08-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* for nbb 4.15.0
+
+### Bug Fixes
+
+* update packages ([749ca14](https://github.com/Wieloswiat/nodebb-plugin-ws-dice/commit/749ca14c711851a14c8b2e83a7a3b08103a70b82))
+
+
+### Code Refactoring
+
+* for nbb 4.15.0 ([81a1f3a](https://github.com/Wieloswiat/nodebb-plugin-ws-dice/commit/81a1f3a7847af6307c6b934956df089acd31ce67))
+
 ## [3.0.7](https://github.com/Wieloswiat/nodebb-plugin-ws-dice/compare/v3.0.6...v3.0.7) (2023-09-04)
 
 
