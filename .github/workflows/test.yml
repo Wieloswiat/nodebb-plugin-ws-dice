@@ -15,19 +15,19 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [16, 18] # versions currently supported by NodeBB
+        node: [22, 24]
         database: [mongo] # you can add redis and postgres here if you're touching the database more directly
-        nodebb: [master, v3.x] # branches or tags
+        nodebb: [master, v4.x]
         include:
           - os: ubuntu-latest
-            node: 18
+            node: 24
             database: mongo
             nodebb: master
             lint: true # we only want to lint once
         exclude:
             # pre-release means living on the edge... of LTS releases too I guess
             - nodebb: master
-              node: 16
+              node: 22
     services:
       postgres:
         image: ${{ startsWith(matrix.database, 'postgres') && 'postgres:15-alpine' || '' }}
@@ -57,32 +57,31 @@ jobs:
           - 6379:6379
 
       mongo:
-        image: ${{ startsWith(matrix.database, 'mongo') && 'mongo:3.7' || ''}}
+        image: ${{ startsWith(matrix.database, 'mongo') && 'mongo:8.0' || ''}}
         ports:
           # Maps port 27017 on service container to the host
           - 27017:27017
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: actions/checkout@v6
         with:
           repository: NodeBB/NodeBB
           ref: ${{ matrix.nodebb }}
           path: nodebb
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: actions/checkout@v6
         with:
           path: tested-plugin
-      - uses: pnpm/action-setup@v2.4.1
+      - uses: pnpm/action-setup@v6
         with:
-            version: 8
             run_install: false
       - name: Prepare NodeBB package.json
         run: cp install/package.json package.json
         working-directory: nodebb
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
       - name: Install plugin dependencies
         working-directory: tested-plugin
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
       - name: Run ESLint
         if: matrix.lint
         working-directory: tested-plugin
@@ -91,7 +90,7 @@ jobs:
         id: npm-cache-dir
         shell: bash
         run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
         with:
           path: ${{ steps.npm-cache-dir.outputs.dir }}

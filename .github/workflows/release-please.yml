@@ -6,35 +6,33 @@ name: release-please
 permissions:
   contents: write
   pull-requests: write
+  id-token: write
 jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-    - uses: google-github-actions/release-please-action@v3
+    - uses: googleapis/release-please-action@v5
       id: release
       with:
         release-type: node
         package-name: nodebb-plugin-ws-dice
         bootstrap-sha: 5736422f4eb86386ea5b154bc4fc99f1f2cff55c
     # The logic below handles the npm publication:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+    - uses: actions/checkout@v6
       # these if statements ensure that a publication only occurs when
       # a new release is created:
       if: ${{ steps.release.outputs.release_created }}
-    - uses: pnpm/action-setup@v2.4.1
+    - uses: pnpm/action-setup@v6
       with:
-        version: 8
         run_install: false
       if: ${{ steps.release.outputs.release_created }}
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v6
       with:
-        node-version: 18
+        node-version: 24
         registry-url: https://registry.npmjs.org/
-        cache: "pnpm"
+        package-manager-cache: false
       if: ${{ steps.release.outputs.release_created }}
-    - run: pnpm install
+    - run: pnpm install --frozen-lockfile
       if: ${{ steps.release.outputs.release_created }}
-    - run: pnpm publish --no-git-checks
-      env:
-        NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+    - run: npm publish
       if: ${{ steps.release.outputs.release_created }}

@@ -104,7 +104,6 @@ function createText(total, rolls, diceUsed, notation) {
 		let iconValue = total;
 		if (diceUsed[0].name === 'fudge') {
 			sides = 'F';
-			// eslint-disable-next-line no-nested-ternary
 			iconValue = total === 1 ? 'plus' : (total === -1 ? 'minus' : 'zero');
 		}
 		if (dice.includes(`d${sides}`)) {

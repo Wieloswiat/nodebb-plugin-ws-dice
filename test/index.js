@@ -17,8 +17,6 @@
 'use strict';
 
 /* globals describe, it, before */
-/* eslint-disable no-unused-vars */
-
 const assert = require('assert');
 
 
