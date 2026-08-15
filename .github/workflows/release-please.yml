@@ -24,7 +24,7 @@ jobs:
       if: ${{ steps.release.outputs.release_created }}
     - uses: pnpm/action-setup@v6
       with:
-        version: 10.34.5
+        version: 11.22.0
         run_install: false
       if: ${{ steps.release.outputs.release_created }}
     - uses: actions/setup-node@v6
