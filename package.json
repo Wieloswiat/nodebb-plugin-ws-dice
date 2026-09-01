@@ -55,5 +55,5 @@
 		"expressionparser": "^1.1.5",
 		"semver": "^7.8.5"
 	},
-	"packageManager": "pnpm@10.34.5"
+	"packageManager": "pnpm@11.25.0"
 }
