@@ -72,7 +72,7 @@ jobs:
           path: tested-plugin
       - uses: pnpm/action-setup@v6
         with:
-          version: 10.34.7
+          version: 12.14.0
           run_install: false
       - name: Prepare NodeBB package.json
         run: cp install/package.json package.json
