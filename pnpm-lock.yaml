@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@dice-roller/rpg-dice-roller':
-        specifier: 5.5.1
-        version: 5.5.1
+        specifier: 5.5.3
+        version: 5.5.3
       expressionparser:
         specifier: ^1.1.5
         version: 1.1.9
@@ -156,9 +156,9 @@ packages:
     resolution: {integrity: sha512-mHyyEL0eIEqJ6+aF24+AdZRo4bu4W5GdUiCiCx5X7kfDY51ye8GQJ264uOINObrRSKxtSRCOWPpl9hbOy4UzxQ==}
     engines: {node: '>=22'}
 
-  '@dice-roller/rpg-dice-roller@5.5.1':
-    resolution: {integrity: sha512-De5/UTjihpv639XJDBOCfwuOlzIInLqCeal5rpIY9C8Qh8oaNL2/5e0wa/0lcVZyy8m+BCn5zT4eZamCnguIXQ==}
-    engines: {node: '>=18.0'}
+  '@dice-roller/rpg-dice-roller@5.5.3':
+    resolution: {integrity: sha512-R7btUcON89/0TbkvUKTYT6XBhenydlomQVTXm4ogs+pfPC3uxsXYPEiOsHQiP1CIvR2tQlchwxdEcsmD7aC2TQ==}
+    engines: {node: ^26.0.0}
 
   '@eslint-community/eslint-utils@4.10.1':
     resolution: {integrity: sha512-cuadcxVFE8sDK6iWJbs8Sn0av2Nrh2QSGQhVlBW9AaAHqHwjWsZHT8LJ4hFGPh7ASBV2deFdM7H/DPjulmh8rg==}
@@ -577,8 +577,8 @@ packages:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
 
-  mathjs@14.9.1:
-    resolution: {integrity: sha512-xhqv8Xjf+caWG3WlaPekg4v8QFOR3D5+8ycfcjMcPcnCNDgAONQLaLfyGgrggJrcHx2yUGCpACRpiD4GmXwX+Q==}
+  mathjs@15.2.0:
+    resolution: {integrity: sha512-UAQzSVob9rNLdGpqcFMYmSu9dkuLYy7Lr2hBEQS5SHQdknA9VppJz3cy2KkpMzTODunad6V6cNv+5kOLsePLow==}
     engines: {node: '>= 18'}
     hasBin: true
 
@@ -889,9 +889,9 @@ snapshots:
 
   '@conventional-changelog/template@1.4.1': {}
 
-  '@dice-roller/rpg-dice-roller@5.5.1':
+  '@dice-roller/rpg-dice-roller@5.5.3':
     dependencies:
-      mathjs: 14.9.1
+      mathjs: 15.2.0
       random-js: 2.1.0
 
   '@eslint-community/eslint-utils@4.10.1(eslint@10.15.0(jiti@2.7.0))':
@@ -1277,7 +1277,7 @@ snapshots:
     dependencies:
       p-locate: 5.0.0
 
-  mathjs@14.9.1:
+  mathjs@15.2.0:
     dependencies:
       '@babel/runtime': 7.29.14
       complex.js: 2.4.3
