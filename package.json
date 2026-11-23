@@ -51,7 +51,7 @@
 		"lint-staged": "17.6.1"
 	},
 	"dependencies": {
-		"@dice-roller/rpg-dice-roller": "5.5.3",
+		"@dice-roller/rpg-dice-roller": "5.5.4",
 		"expressionparser": "^1.1.5",
 		"semver": "^7.8.5"
 	},

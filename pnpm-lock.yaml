@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@dice-roller/rpg-dice-roller':
-        specifier: 5.5.3
-        version: 5.5.3
+        specifier: 5.5.4
+        version: 5.5.4
       expressionparser:
         specifier: ^1.1.5
         version: 1.1.9
@@ -156,8 +156,8 @@ packages:
     resolution: {integrity: sha512-mHyyEL0eIEqJ6+aF24+AdZRo4bu4W5GdUiCiCx5X7kfDY51ye8GQJ264uOINObrRSKxtSRCOWPpl9hbOy4UzxQ==}
     engines: {node: '>=22'}
 
-  '@dice-roller/rpg-dice-roller@5.5.3':
-    resolution: {integrity: sha512-R7btUcON89/0TbkvUKTYT6XBhenydlomQVTXm4ogs+pfPC3uxsXYPEiOsHQiP1CIvR2tQlchwxdEcsmD7aC2TQ==}
+  '@dice-roller/rpg-dice-roller@5.5.4':
+    resolution: {integrity: sha512-CCr8HAuH710CAKdU9QA/XK5Dt94+M2DNO+ifAUT5x0577CzWoI7aQtX87N25CnrHj/L2ym/ijglxeI9jTF4pIw==}
     engines: {node: ^26.0.0}
 
   '@eslint-community/eslint-utils@4.10.1':
@@ -889,7 +889,7 @@ snapshots:
 
   '@conventional-changelog/template@1.4.1': {}
 
-  '@dice-roller/rpg-dice-roller@5.5.3':
+  '@dice-roller/rpg-dice-roller@5.5.4':
     dependencies:
       mathjs: 15.2.0
       random-js: 2.1.0
